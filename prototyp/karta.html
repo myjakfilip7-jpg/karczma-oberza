@@ -4,18 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#121212">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#12100e">
 <title>Karta dań — Karczma Oberża, Krynica-Zdrój</title>
 <meta name="description" content="Karta dań Karczmy Oberża w Krynicy-Zdroju: zupy, dania główne, pierogi, burgery, pizza i desery z cenami.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Great+Vibes&family=Hanken+Grotesk:wght@400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://lh3.googleusercontent.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="alternate" hreflang="pl" href="karta.html">
 <link rel="alternate" hreflang="en" href="en/karta.html">
-<link rel="stylesheet" href="strona.css">
+<link rel="stylesheet" href="strona.css?v=5">
 </head>
 <body>
-<a class="skok" href="#karta">Przejdź do karty</a>
+<a class="skok" href="#tresc">Przejdź do treści</a>
 
 <header class="naglowek stala" data-zawsze>
   <div class="wrap">
@@ -24,7 +26,7 @@
       <a href="karta.html" aria-current="page">Karta</a>
       <a href="index.html#rondel">Rondel</a>
       <a href="index.html#karczma">Karczma</a>
-      <a href="index.html#dowoz">Dowóz</a>
+      <a href="dowoz.html">Dowóz</a>
       <a href="index.html#kontakt">Kontakt</a>
     </nav>
     <div class="prawa">
@@ -38,63 +40,64 @@
 
 <div class="menu" id="menu">
   <a class="duzy" href="index.html">Strona główna</a>
+  <a class="duzy" href="karta.html">Karta <span>60 pozycji</span></a>
   <a class="duzy" href="index.html#rondel">Rondel <span>dla czterech</span></a>
   <a class="duzy" href="index.html#karczma">Karczma</a>
-  <a class="duzy" href="index.html#dowoz">Dowóz <span>darmowy w Krynicy</span></a>
+  <a class="duzy" href="dowoz.html">Dowóz <span>darmowy w Krynicy</span></a>
   <a class="duzy" href="index.html#kontakt">Kontakt</a>
   <div class="dol">
     <span class="status" data-status>Codziennie 12:00–22:00</span>
-    <p class="dop">ul. Piłsudskiego 23, Krynica-Zdrój</p>
-    <a class="btn jasny" href="tel:+48505176315">Zadzwoń 505 176 315</a>
-    <a class="jezyk-m" href="en/karta.html" lang="en" hreflang="en">English version</a>
+    <span class="cichy">ul. Piłsudskiego 23, Krynica-Zdrój</span>
+    <a class="btn" href="tel:+48505176315">Zadzwoń 505 176 315</a>
+    <a class="link" href="en/karta.html" lang="en" hreflang="en">English version</a>
   </div>
 </div>
 
-<main>
-  <div class="karta-glowa">
-    <div class="wrap gora">
-      <div>
-        <p class="etykieta" style="color:var(--na-ciemnym-2)" id="wydanie">Ceny w złotych</p>
-        <h1 style="margin-top:12px">Karta dań</h1>
+<main id="tresc">
+  <div class="pod-glowa">
+    <div class="wrap">
+      <p class="et" id="wydanie">Ceny w złotych</p>
+      <div class="rzad-glowa">
+        <h1 class="h-xl">Karta dań</h1>
+        <form class="szukaj" role="search" id="szukaj-form">
+          <label class="sr" for="szukaj">Szukaj w karcie</label>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="szukaj" type="search" placeholder="Szukaj dania lub składnika" autocomplete="off" enterkeyhint="search">
+          <button type="button" id="wyczysc" aria-label="Wyczyść wyszukiwanie">×</button>
+        </form>
       </div>
-      <form class="szukaj" role="search" id="szukaj-form">
-        <label class="sr" for="szukaj">Szukaj w karcie</label>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="szukaj" type="search" placeholder="Szukaj dania lub składnika" autocomplete="off" enterkeyhint="search">
-        <button type="button" id="wyczysc" aria-label="Wyczyść wyszukiwanie">×</button>
-      </form>
     </div>
   </div>
 
-  <div class="wrap karta-uklad">
-    <nav class="kat-nav" aria-label="Kategorie" id="kat-nav"></nav>
-    <div id="karta">
-      <p class="wynik" id="wynik" role="status" aria-live="polite"></p>
-      <div id="lista"><noscript><p>Karta wymaga włączonego JavaScriptu. Zadzwoń: 505 176 315.</p></noscript></div>
-      <div class="pusto" id="pusto" hidden>
-        <h2 class="kat-h" style="border:0;text-transform:none;letter-spacing:0" id="pusto-tekst"></h2>
-        <p class="dop">Spróbuj krótszego słowa, na przykład „pierogi” albo „oscypek”. Możesz też zapytać o danie telefonicznie.</p>
-        <button class="btn ciemny" type="button" id="pusto-wyczysc">Pokaż całą kartę</button>
+  <div class="jasna">
+    <div class="wrap karta-uklad">
+      <nav class="kat-nav" aria-label="Kategorie" id="kat-nav"></nav>
+      <div id="karta">
+        <p class="wynik" id="wynik" role="status" aria-live="polite"></p>
+        <div id="lista"><noscript><p>Karta wymaga włączonego JavaScriptu. Zadzwoń: 505 176 315.</p></noscript></div>
+        <div class="pusto" id="pusto" hidden>
+          <h2 class="h-m" id="pusto-tekst"></h2>
+          <p class="cichy">Spróbuj krótszego słowa, na przykład „pierogi” albo „oscypek”. Możesz też zapytać o danie telefonicznie.</p>
+          <button class="btn" type="button" id="pusto-wyczysc">Pokaż całą kartę</button>
+        </div>
       </div>
     </div>
   </div>
 </main>
 
+<button class="do-gory" type="button" id="do-gory" aria-label="Wróć na górę karty">↑</button>
+
 <div class="haft szyj" aria-hidden="true"></div>
 <footer class="stopka">
   <div class="wrap">
-    <div class="kolumny">
-      <div>
-        <span class="wm"><small>KARCZMA</small><b>OBER<i class="z">Z</i>A</b></span>
-        <p class="dop" style="margin-top:16px;max-width:30ch">Swojskie smaki, ciepło i gościnność. Krynica-Zdrój.</p>
-      </div>
+    <div class="gora">
       <div>
         <h2>Odwiedź nas</h2>
-        <ul><li>ul. Piłsudskiego 23</li><li>33-380 Krynica-Zdrój</li><li>Codziennie 12:00–22:00</li></ul>
+        <ul><li>ul. Piłsudskiego 23</li><li>33-380 Krynica-Zdrój</li><li><span class="status" data-status>Codziennie 12:00–22:00</span></li></ul>
       </div>
       <div>
         <h2>Zamów</h2>
-        <ul><li><a href="tel:+48505176315">505 176 315</a></li><li><a href="index.html#dowoz">Dowóz i na wynos</a></li><li><a href="index.html">Strona główna</a></li></ul>
+        <ul><li><a href="tel:+48505176315">505 176 315</a></li><li><a href="karta.html">Karta dań</a></li><li><a href="dowoz.html">Dowóz i na wynos</a></li></ul>
       </div>
       <div>
         <h2>Obserwuj</h2>
@@ -104,23 +107,26 @@
           <li><a href="https://www.tiktok.com/@karczma.oberza" target="_blank" rel="noopener">TikTok</a></li>
         </ul>
       </div>
+      <div>
+        <h2>E-mail</h2>
+        <ul><li><a href="mailto:oberzaswojskiejadlo@gmail.com">oberzaswojskiejadlo@gmail.com</a></li></ul>
+      </div>
     </div>
-    <div class="dol dop">
-      <span>Prototyp strony · ceny z karty opublikowanej 1.11.2026</span>
+    <div class="nota maly">
+      <span>Prototyp strony · zdjęcia tymczasowe z wizytówki Google</span>
       <a href="../index.html">Wróć do researchu</a>
     </div>
   </div>
+  <div class="olbrzym" aria-hidden="true">OBER<i class="z">Z</i>A</div>
 </footer>
-
-<button class="do-gory" type="button" id="do-gory" aria-label="Wróć na górę karty">↑</button>
 
 <nav class="pasek" aria-label="Szybkie akcje">
   <a class="glowny" href="tel:+48505176315">Zadzwoń</a>
-  <a href="index.html">Start</a>
+  <a href="karta.html">Karta</a>
   <a href="https://www.google.com/maps/dir/?api=1&destination=Karczma+Ober%C5%BCa,+Pi%C5%82sudskiego+23,+Krynica-Zdr%C3%B3j" target="_blank" rel="noopener">Dojazd</a>
 </nav>
 
-<script src="strona.js"></script>
-<script src="karta.js"></script>
+<script src="strona.js?v=5"></script>
+<script src="karta.js?v=5" data-baza=""></script>
 </body>
 </html>

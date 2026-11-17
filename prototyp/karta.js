@@ -1,8 +1,9 @@
-// Karczma Oberża — karta dań renderowana z menu.json (PL i EN z jednego pliku)
-// EN (czy strona jest po angielsku) pochodzi ze strona.js, wczytanego wcześniej
+// Karczma Oberża — karta dań renderowana z menu.json (PL i PO_ANG z jednego pliku)
+// Skrypt jest samodzielny: sam sprawdza język strony i nie zależy od innych plików.
+const PO_ANG = document.documentElement.lang.startsWith("en");
 const BAZA = document.currentScript.dataset.baza || "";
 
-const T = EN ? {
+const T = PO_ANG ? {
   wydanie: d => "Edition of " + d + " · prices in PLN",
   wszystkie: n => n + (n === 1 ? " dish" : " dishes") + " on the menu",
   trafienia: (n, q) => n + (n === 1 ? " result" : " results") + " for “" + q + "”",
@@ -21,7 +22,7 @@ function odmiana(n) {
 }
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
 const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ł/g, "l");
-const tl = (obj, pole) => (EN && obj[pole + "_en"]) || obj[pole];
+const tl = (obj, pole) => (PO_ANG && obj[pole + "_en"]) || obj[pole];
 
 const nav = document.getElementById("kat-nav");
 const lista = document.getElementById("lista");
@@ -30,7 +31,7 @@ const pusto = document.getElementById("pusto");
 const pole = document.getElementById("szukaj");
 const form = document.getElementById("szukaj-form");
 
-fetch(BAZA + "menu.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(menu => {
+fetch(BAZA + "menu.json?v=5").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(menu => {
   document.getElementById("wydanie").textContent = T.wydanie(menu.wydanie);
   const wpisy = [];
 
@@ -48,7 +49,7 @@ fetch(BAZA + "menu.json").then(r => { if (!r.ok) throw new Error(r.status); retu
       const li = el("li");
       li.append(el("span", "n", tl(p, "n")), el("span", "c", p.c === "?" ? "—" : p.c));
       // w wersji angielskiej pokazujemy też polską nazwę — tak gość zamawia u kelnera
-      if (EN && p.n_en && p.n_en !== p.n) { const pl = el("span", "pl", p.n); pl.lang = "pl"; li.append(pl); }
+      if (PO_ANG && p.n_en && p.n_en !== p.n) { const pl = el("span", "pl", p.n); pl.lang = "pl"; li.append(pl); }
       if (p.o) li.append(el("span", "o", tl(p, "o")));
       if (p.g) li.append(el("span", "g", tl(p, "g")));
       ul.append(li);
