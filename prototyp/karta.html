@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#121212">
+<title>Karta dań — Karczma Oberża, Krynica-Zdrój</title>
+<meta name="description" content="Karta dań Karczmy Oberża w Krynicy-Zdroju: zupy, dania główne, pierogi, burgery, pizza i desery z cenami.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Great+Vibes&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="strona.css">
+</head>
+<body>
+
+<header class="naglowek pelna">
+  <div class="wrap">
+    <a class="wm" href="index.html" aria-label="Karczma Oberża — strona główna"><small>KARCZMA</small><b>OBER<i class="z">Z</i>A</b></a>
+    <nav aria-label="Główna">
+      <a href="karta.html" aria-current="page">Karta</a>
+      <a href="index.html#rondel">Rondel</a>
+      <a href="index.html#karczma">Karczma</a>
+      <a href="index.html#dowoz">Dowóz</a>
+      <a href="index.html#kontakt">Kontakt</a>
+      <a class="tel" href="tel:+48505176315">505 176 315</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="karta-glowa">
+    <div class="wrap">
+      <p class="eyebrow" style="color:#e3b4a2">Karczma Oberża</p>
+      <h1>Karta dań</h1>
+      <p class="maly" style="margin:18px 0 0;color:#b9b2a6" id="wydanie">Ceny w złotych</p>
+    </div>
+  </div>
+
+  <nav class="kat-nav" aria-label="Kategorie"><div class="wrap" id="kat-nav"></div></nav>
+
+  <div class="wrap waski karta" id="karta">
+    <noscript><p>Karta wymaga włączonego JavaScriptu. Zadzwoń: 505 176 315.</p></noscript>
+  </div>
+</main>
+
+<div class="haft"></div>
+<footer class="stopka">
+  <div class="wrap">
+    <span class="wm"><small>KARCZMA</small><b>OBER<i class="z">Z</i>A</b></span>
+    <nav aria-label="Stopka">
+      <a href="index.html">Strona główna</a>
+      <a href="index.html#dowoz">Dowóz</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+    <p class="maly">Zamówienia z dowozem: <a href="tel:+48505176315">505 176 315</a>, codziennie 12:00–22:00</p>
+  </div>
+</footer>
+
+<nav class="pasek" aria-label="Szybkie akcje">
+  <a class="glowny" href="tel:+48505176315">Zadzwoń</a>
+  <a href="index.html">Start</a>
+  <a href="https://www.google.com/maps/dir/?api=1&destination=Karczma+Ober%C5%BCa,+Pi%C5%82sudskiego+23,+Krynica-Zdr%C3%B3j" target="_blank" rel="noopener">Dojazd</a>
+</nav>
+
+<script>
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+
+fetch("menu.json").then(r => r.json()).then(menu => {
+  document.getElementById("wydanie").textContent = "Wydanie z " + menu.wydanie + " · ceny w złotych";
+  const nav = document.getElementById("kat-nav");
+  const karta = document.getElementById("karta");
+
+  menu.kategorie.forEach(k => {
+    const a = el("a", "", k.nazwa);
+    a.href = "#" + k.id;
+    nav.append(a);
+
+    const sekcja = el("section", "kat");
+    sekcja.id = k.id;
+    sekcja.append(el("h2", "", k.nazwa));
+    if (k.uwaga) sekcja.append(el("p", "uwaga", k.uwaga));
+    const ul = el("ul");
+    k.pozycje.forEach(p => {
+      const li = el("li");
+      const poz = el("div", "poz");
+      poz.append(el("span", "n", p.n), el("span", "kropki"), el("span", "c", p.c));
+      li.append(poz);
+      if (p.o) li.append(el("p", "o", p.o));
+      if (p.g) li.append(el("span", "g", p.g));
+      ul.append(li);
+    });
+    sekcja.append(ul);
+    karta.append(sekcja);
+  });
+
+  const linki = [...nav.querySelectorAll("a")];
+  const obs = new IntersectionObserver(wpisy => wpisy.forEach(w => {
+    if (!w.isIntersecting) return;
+    linki.forEach(l => l.classList.toggle("aktywna", l.hash === "#" + w.target.id));
+    const akt = nav.querySelector(".aktywna");
+    if (akt) nav.scrollTo({ left: akt.offsetLeft - 20, behavior: "smooth" });
+  }), { rootMargin: "-140px 0px -70% 0px" });
+  document.querySelectorAll(".kat").forEach(s => obs.observe(s));
+}).catch(() => {
+  document.getElementById("karta").append(el("p", "", "Nie udało się wczytać karty. Zadzwoń: 505 176 315."));
+});
+</script>
+</body>
+</html>

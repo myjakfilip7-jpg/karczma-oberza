@@ -1,0 +1,121 @@
+{
+  "wydanie": "1.11.2026",
+  "waluta": "zł",
+  "kategorie": [
+    {
+      "id": "zakaski", "nazwa": "Zakąski",
+      "pozycje": [
+        { "n": "Pajda chleba", "o": "smalec, ogórek kiszony, pieczywo wiejskie", "g": "300 g", "c": "22" },
+        { "n": "Oscypek górski z żurawiną", "o": "grillowany oscypek, podawany z żurawiną", "g": "110 g / 30 g", "c": "26" },
+        { "n": "Rydze smażone na maśle", "o": "rydze z cebulką, podawane z grzanką", "g": "150 g", "c": "48" }
+      ]
+    },
+    {
+      "id": "zupy", "nazwa": "Zupy",
+      "pozycje": [
+        { "n": "Rosół z makaronem", "g": "400 ml", "c": "23" },
+        { "n": "Barszcz z uszkami", "g": "400 ml", "c": "25" },
+        { "n": "Żurek w chlebie", "g": "300 ml", "c": "32" },
+        { "n": "Żurek z jajkiem i kiełbasą", "g": "400 ml", "c": "33" },
+        { "n": "Kwaśnica standardowa", "o": "z żeberkiem", "g": "650 ml", "c": "28" },
+        { "n": "Flaczki wołowe", "g": "400 ml", "c": "29" }
+      ]
+    },
+    {
+      "id": "dania-glowne", "nazwa": "Dania główne",
+      "pozycje": [
+        { "n": "Żeberko wieprzowe BBQ", "o": "ze smażonymi ziemniakami i kapustą zasmażaną", "g": "450 / 150 / 150 g", "c": "69" },
+        { "n": "Golonka pieczona", "o": "z kością, podawana na kapuście zasmażanej z musztardą, chrzanem i pieczywem", "g": "350 / 150 g", "c": "69" },
+        { "n": "Polędwiczki drobiowe", "o": "w płatkach kukurydzianych, z frytkami i zestawem surówek", "g": "250 / 200 / 150 g", "c": "54" },
+        { "n": "Górski pstrąg smażony", "o": "z frytkami i sałatką szefa", "g": "350–400 / 200 / 150 g", "c": "67" },
+        { "n": "Kotlet wieprzowy", "o": "smażony na smalcu, z kapustą zasmażaną i ziemniakami z wody okraszonymi skwarkami", "g": "200 / 150 / 150 g", "c": "56" },
+        { "n": "Pieczeń wieprzowa Bacy", "o": "w sosie borowikowym, z kopytkami i burakami", "g": "250 / 150 / 150 g", "c": "63" },
+        { "n": "Gulasz wołowy", "o": "z kopytkami i burakami", "g": "400 / 250 / 150 g", "c": "65" },
+        { "n": "Gulasz wieprzowy", "o": "z kopytkami i ogórkiem kiszonym", "g": "400 / 250 / 150 g", "c": "63" },
+        { "n": "Stek po staropolsku z kością", "o": "grillowana cebulka, pieczarki, ziemniak pieczony, ogórek kiszony", "g": "300 / 150 / 150 g", "c": "69" },
+        { "n": "Policzka wołowe", "o": "z puree ziemniaczanym i burakami", "g": "200 / 150 / 150 g", "c": "69" },
+        { "n": "Filet drobiowy", "o": "w sosie śmietanowym, z kopytkami i sałatką szefa", "g": "250 / 150 / 150 g", "c": "54" }
+      ]
+    },
+    {
+      "id": "rondel", "nazwa": "Rondel Głodnego Chłopa",
+      "uwaga": "Danie dla czterech osób",
+      "pozycje": [
+        { "n": "Rondel Głodnego Chłopa", "o": "golonka, żebro BBQ, pieczeń w borowikach, dwa rodzaje mięsa z grilla, trzy rodzaje pierogów, smażone ziemniaczki, kapusta zasmażana", "g": "dla 4 osób", "c": "249" }
+      ]
+    },
+    {
+      "id": "pierogi", "nazwa": "Pierogi",
+      "uwaga": "10 sztuk, z okrasą ze skwarek",
+      "pozycje": [
+        { "n": "Pierogi ruskie", "c": "41" },
+        { "n": "Pierogi z kapustą", "c": "41" },
+        { "n": "Pierogi z mięsem", "c": "41" },
+        { "n": "Pierogi z rydzami", "c": "42" },
+        { "n": "Pyzdryki z jagnięciną", "o": "pierogi z jagnięciną", "c": "45" }
+      ]
+    },
+    {
+      "id": "burgery", "nazwa": "Burgery",
+      "uwaga": "Podawane z frytkami",
+      "pozycje": [
+        { "n": "Góral Burger", "o": "mix sałat, ogórek kanapkowy, pomidor, czerwona cebula, 2× grillowana wołowina przełożona boczkiem, oscypek, żurawina, sosy", "g": "300 g", "c": "56" },
+        { "n": "Classic Burger", "o": "mix sałat, ogórek kanapkowy, pomidor, czerwona cebula, 2× grillowana wołowina przełożona boczkiem, sosy", "g": "300 g", "c": "56" },
+        { "n": "Burger z szarpaną wołowiną", "o": "mix sałat, ogórek kanapkowy, karmelizowana cebulka, szarpana wołowina, grillowany ser, musztarda słoneczna, sriracha mayo", "g": "200 g", "c": "56" },
+        { "n": "Burger wegetariański", "o": "panierowany camembert, grillowana cukinia, pomidor, bazyliowe mayo", "g": "180 g", "c": "45" }
+      ]
+    },
+    {
+      "id": "pizza", "nazwa": "Pizza Oberży",
+      "uwaga": "Ceny: 22 cm / 30 cm. Każda z sosem, serem i oregano. Dodatki: wegetariański 5, mięsny 7, ser lub oscypek 7, sos czosnkowy 4, ketchup 4, pudełko 4.",
+      "pozycje": [
+        { "n": "Margherita", "o": "sos, ser, oregano", "c": "26 / 36" },
+        { "n": "Parma", "o": "szynka", "c": "30 / 40" },
+        { "n": "Kozacka", "o": "pieczarki, salami, oliwki, kurczak, papryka", "c": "36 / 46" },
+        { "n": "Salami", "o": "salami", "c": "32 / 42" },
+        { "n": "Napoletana", "o": "pieczarki, bekon, kabanos, cebula", "c": "34 / 44" },
+        { "n": "Vera", "o": "kurczak, pieczarki, szynka, kukurydza", "c": "36 / 46" },
+        { "n": "Ciro", "o": "pieczarki, jalapeno, salami, kukurydza, oliwki", "c": "34 / 44" },
+        { "n": "Stragioni", "o": "pieczarki, szynka, cebula", "c": "31 / 41" },
+        { "n": "Bardzo dobra", "o": "kurczak, ananas", "c": "31 / 41" },
+        { "n": "Prosciutto", "o": "szynka parmeńska, rukola", "c": "34 / 44" },
+        { "n": "Del capo", "o": "pieczarki, czosnek, kurczak, pomidor", "c": "34 / 44" },
+        { "n": "Góralska", "o": "ziemniaki, oscypek, bekon, żurawina", "c": "36 / 46" },
+        { "n": "Bajer", "o": "cztery składniki na życzenie, do wyboru ze składników pozostałych pizz", "c": "36 / 46" }
+      ]
+    },
+    {
+      "id": "dla-dzieci", "nazwa": "Dla dzieci",
+      "pozycje": [
+        { "n": "Naleśnik", "o": "z czekoladą i bitą śmietaną", "g": "200 g", "c": "25" },
+        { "n": "Pierogi z truskawkami", "g": "8 szt.", "c": "27" },
+        { "n": "Pierogi z jagodami", "g": "8 szt.", "c": "27" },
+        { "n": "Kids-Burger", "o": "150 g wołowiny, sałata, ogórek kanapkowy, sosy", "g": "150 g", "c": "35" },
+        { "n": "Nuggetsy z kurczaka", "o": "z frytkami i marchewką", "g": "100 / 150 / 100 g", "c": "29" }
+      ]
+    },
+    {
+      "id": "desery", "nazwa": "Desery",
+      "pozycje": [
+        { "n": "Szarlotka na ciepło", "o": "z lodami, bitą śmietaną, sosem czekoladowym", "c": "29" },
+        { "n": "Fondant czekoladowy", "o": "z lodami, bitą śmietaną, sosem czekoladowym", "c": "29" },
+        { "n": "Tiramisu", "c": "29" }
+      ]
+    },
+    {
+      "id": "dodatki", "nazwa": "Dodatki",
+      "uwaga": "Ceny chrzanu, musztardy i śmietany do potwierdzenia z karczmą.",
+      "pozycje": [
+        { "n": "Frytki", "g": "200 g", "c": "16" },
+        { "n": "Ziemniaki smażone", "g": "200 g", "c": "17" },
+        { "n": "Ziemniaki z wody", "g": "200 g", "c": "17" },
+        { "n": "Kopytka", "g": "200 g", "c": "18" },
+        { "n": "Kapusta zasmażana", "g": "200 g", "c": "18" },
+        { "n": "Zestaw surówek", "g": "200 g", "c": "19" },
+        { "n": "Pieczywo", "g": "3 pajdy", "c": "14" },
+        { "n": "Chrzan / musztarda", "g": "100 g", "c": "?" },
+        { "n": "Kwaśna śmietana", "g": "50 g", "c": "?" }
+      ]
+    }
+  ]
+}
