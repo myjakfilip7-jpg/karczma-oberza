@@ -11,6 +11,7 @@ Robocze opracowanie marki Karczmy Oberża (ul. Piłsudskiego 23, Krynica-Zdrój)
 | `media.html` | Kanały social, Google Maps, Tripadvisor, oceny, galeria, najnowsze publikacje, podsumowanie opinii |
 | `prototyp/index.html` | Prototyp strony głównej karczmy |
 | `prototyp/karta.html` | Prototyp karty dań, renderowany z `prototyp/menu.json` (jedno źródło cen) |
+| `prototyp/strona.css`, `prototyp/strona.js` | System wizualny prototypu (tokeny, komponenty) i wspólne zachowania: status otwarcia, menu mobilne, animacje |
 | `data/menu.md` | Karta dań spisana z Facebooka (wydanie z 1.11.2026) i pozycje ze starszej karty |
 | `assets/style.css` | Wspólne style |
 | `assets/haft.svg` | Uproszczona rekonstrukcja motywu haftu krzyżykowego |
