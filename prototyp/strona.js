@@ -1,5 +1,6 @@
 // Karczma Oberża — wspólne zachowania prototypu
 document.documentElement.classList.add("js");
+const EN = document.documentElement.lang.startsWith("en");
 
 // Status „otwarte teraz” liczony w czasie Krynicy (codziennie 12:00–22:00)
 (function status() {
@@ -7,7 +8,9 @@ document.documentElement.classList.add("js");
   const czesci = new Intl.DateTimeFormat("pl-PL", { timeZone: "Europe/Warsaw", hour: "numeric", minute: "numeric", hour12: false }).formatToParts(new Date());
   const h = Number(czesci.find(c => c.type === "hour").value);
   const otwarte = h >= OD && h < DO;
-  const tekst = otwarte ? "Otwarte · do 22:00" : h < OD ? "Zamknięte · otwieramy o 12:00" : "Zamknięte · otwieramy jutro o 12:00";
+  const tekst = EN
+    ? (otwarte ? "Open · until 22:00" : h < OD ? "Closed · opens at 12:00" : "Closed · opens tomorrow at 12:00")
+    : (otwarte ? "Otwarte · do 22:00" : h < OD ? "Zamknięte · otwieramy o 12:00" : "Zamknięte · otwieramy jutro o 12:00");
   document.querySelectorAll("[data-status]").forEach(el => {
     el.textContent = tekst;
     el.dataset.stan = otwarte ? "otwarte" : "zamkniete";
@@ -30,7 +33,7 @@ if (btn && menu) {
     menu.classList.toggle("otwarte", otwarte);
     menu.inert = !otwarte;
     btn.setAttribute("aria-expanded", String(otwarte));
-    btn.setAttribute("aria-label", otwarte ? "Zamknij menu" : "Otwórz menu");
+    btn.setAttribute("aria-label", EN ? (otwarte ? "Close menu" : "Open menu") : (otwarte ? "Zamknij menu" : "Otwórz menu"));
     document.body.style.overflow = otwarte ? "hidden" : "";
     if (naglowek) naglowek.classList.toggle("stala", otwarte || scrollY > 24 || naglowek.hasAttribute("data-zawsze"));
   };

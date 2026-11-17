@@ -1,121 +1,509 @@
 {
-  "wydanie": "1.11.2026",
-  "waluta": "zł",
-  "kategorie": [
+ "wydanie": "1.11.2026",
+ "waluta": "zł",
+ "kategorie": [
+  {
+   "id": "zakaski",
+   "nazwa": "Zakąski",
+   "pozycje": [
     {
-      "id": "zakaski", "nazwa": "Zakąski",
-      "pozycje": [
-        { "n": "Pajda chleba", "o": "smalec, ogórek kiszony, pieczywo wiejskie", "g": "300 g", "c": "22" },
-        { "n": "Oscypek górski z żurawiną", "o": "grillowany oscypek, podawany z żurawiną", "g": "110 g / 30 g", "c": "26" },
-        { "n": "Rydze smażone na maśle", "o": "rydze z cebulką, podawane z grzanką", "g": "150 g", "c": "48" }
-      ]
+     "n": "Pajda chleba",
+     "o": "smalec, ogórek kiszony, pieczywo wiejskie",
+     "g": "300 g",
+     "c": "22",
+     "n_en": "Country bread with lard",
+     "o_en": "lard spread, pickled cucumber, country bread"
     },
     {
-      "id": "zupy", "nazwa": "Zupy",
-      "pozycje": [
-        { "n": "Rosół z makaronem", "g": "400 ml", "c": "23" },
-        { "n": "Barszcz z uszkami", "g": "400 ml", "c": "25" },
-        { "n": "Żurek w chlebie", "g": "300 ml", "c": "32" },
-        { "n": "Żurek z jajkiem i kiełbasą", "g": "400 ml", "c": "33" },
-        { "n": "Kwaśnica standardowa", "o": "z żeberkiem", "g": "650 ml", "c": "28" },
-        { "n": "Flaczki wołowe", "g": "400 ml", "c": "29" }
-      ]
+     "n": "Oscypek górski z żurawiną",
+     "o": "grillowany oscypek, podawany z żurawiną",
+     "g": "110 g / 30 g",
+     "c": "26",
+     "n_en": "Grilled oscypek with cranberry",
+     "o_en": "grilled smoked sheep's-milk cheese from the highlands, served with cranberry"
     },
     {
-      "id": "dania-glowne", "nazwa": "Dania główne",
-      "pozycje": [
-        { "n": "Żeberko wieprzowe BBQ", "o": "ze smażonymi ziemniakami i kapustą zasmażaną", "g": "450 / 150 / 150 g", "c": "69" },
-        { "n": "Golonka pieczona", "o": "z kością, podawana na kapuście zasmażanej z musztardą, chrzanem i pieczywem", "g": "350 / 150 g", "c": "69" },
-        { "n": "Polędwiczki drobiowe", "o": "w płatkach kukurydzianych, z frytkami i zestawem surówek", "g": "250 / 200 / 150 g", "c": "54" },
-        { "n": "Górski pstrąg smażony", "o": "z frytkami i sałatką szefa", "g": "350–400 / 200 / 150 g", "c": "67" },
-        { "n": "Kotlet wieprzowy", "o": "smażony na smalcu, z kapustą zasmażaną i ziemniakami z wody okraszonymi skwarkami", "g": "200 / 150 / 150 g", "c": "56" },
-        { "n": "Pieczeń wieprzowa Bacy", "o": "w sosie borowikowym, z kopytkami i burakami", "g": "250 / 150 / 150 g", "c": "63" },
-        { "n": "Gulasz wołowy", "o": "z kopytkami i burakami", "g": "400 / 250 / 150 g", "c": "65" },
-        { "n": "Gulasz wieprzowy", "o": "z kopytkami i ogórkiem kiszonym", "g": "400 / 250 / 150 g", "c": "63" },
-        { "n": "Stek po staropolsku z kością", "o": "grillowana cebulka, pieczarki, ziemniak pieczony, ogórek kiszony", "g": "300 / 150 / 150 g", "c": "69" },
-        { "n": "Policzka wołowe", "o": "z puree ziemniaczanym i burakami", "g": "200 / 150 / 150 g", "c": "69" },
-        { "n": "Filet drobiowy", "o": "w sosie śmietanowym, z kopytkami i sałatką szefa", "g": "250 / 150 / 150 g", "c": "54" }
-      ]
-    },
-    {
-      "id": "rondel", "nazwa": "Rondel Głodnego Chłopa",
-      "uwaga": "Danie dla czterech osób",
-      "pozycje": [
-        { "n": "Rondel Głodnego Chłopa", "o": "golonka, żebro BBQ, pieczeń w borowikach, dwa rodzaje mięsa z grilla, trzy rodzaje pierogów, smażone ziemniaczki, kapusta zasmażana", "g": "dla 4 osób", "c": "249" }
-      ]
-    },
-    {
-      "id": "pierogi", "nazwa": "Pierogi",
-      "uwaga": "10 sztuk, z okrasą ze skwarek",
-      "pozycje": [
-        { "n": "Pierogi ruskie", "c": "41" },
-        { "n": "Pierogi z kapustą", "c": "41" },
-        { "n": "Pierogi z mięsem", "c": "41" },
-        { "n": "Pierogi z rydzami", "c": "42" },
-        { "n": "Pyzdryki z jagnięciną", "o": "pierogi z jagnięciną", "c": "45" }
-      ]
-    },
-    {
-      "id": "burgery", "nazwa": "Burgery",
-      "uwaga": "Podawane z frytkami",
-      "pozycje": [
-        { "n": "Góral Burger", "o": "mix sałat, ogórek kanapkowy, pomidor, czerwona cebula, 2× grillowana wołowina przełożona boczkiem, oscypek, żurawina, sosy", "g": "300 g", "c": "56" },
-        { "n": "Classic Burger", "o": "mix sałat, ogórek kanapkowy, pomidor, czerwona cebula, 2× grillowana wołowina przełożona boczkiem, sosy", "g": "300 g", "c": "56" },
-        { "n": "Burger z szarpaną wołowiną", "o": "mix sałat, ogórek kanapkowy, karmelizowana cebulka, szarpana wołowina, grillowany ser, musztarda słoneczna, sriracha mayo", "g": "200 g", "c": "56" },
-        { "n": "Burger wegetariański", "o": "panierowany camembert, grillowana cukinia, pomidor, bazyliowe mayo", "g": "180 g", "c": "45" }
-      ]
-    },
-    {
-      "id": "pizza", "nazwa": "Pizza Oberży",
-      "uwaga": "Ceny: 22 cm / 30 cm. Każda z sosem, serem i oregano. Dodatki: wegetariański 5, mięsny 7, ser lub oscypek 7, sos czosnkowy 4, ketchup 4, pudełko 4.",
-      "pozycje": [
-        { "n": "Margherita", "o": "sos, ser, oregano", "c": "26 / 36" },
-        { "n": "Parma", "o": "szynka", "c": "30 / 40" },
-        { "n": "Kozacka", "o": "pieczarki, salami, oliwki, kurczak, papryka", "c": "36 / 46" },
-        { "n": "Salami", "o": "salami", "c": "32 / 42" },
-        { "n": "Napoletana", "o": "pieczarki, bekon, kabanos, cebula", "c": "34 / 44" },
-        { "n": "Vera", "o": "kurczak, pieczarki, szynka, kukurydza", "c": "36 / 46" },
-        { "n": "Ciro", "o": "pieczarki, jalapeno, salami, kukurydza, oliwki", "c": "34 / 44" },
-        { "n": "Stragioni", "o": "pieczarki, szynka, cebula", "c": "31 / 41" },
-        { "n": "Bardzo dobra", "o": "kurczak, ananas", "c": "31 / 41" },
-        { "n": "Prosciutto", "o": "szynka parmeńska, rukola", "c": "34 / 44" },
-        { "n": "Del capo", "o": "pieczarki, czosnek, kurczak, pomidor", "c": "34 / 44" },
-        { "n": "Góralska", "o": "ziemniaki, oscypek, bekon, żurawina", "c": "36 / 46" },
-        { "n": "Bajer", "o": "cztery składniki na życzenie, do wyboru ze składników pozostałych pizz", "c": "36 / 46" }
-      ]
-    },
-    {
-      "id": "dla-dzieci", "nazwa": "Dla dzieci",
-      "pozycje": [
-        { "n": "Naleśnik", "o": "z czekoladą i bitą śmietaną", "g": "200 g", "c": "25" },
-        { "n": "Pierogi z truskawkami", "g": "8 szt.", "c": "27" },
-        { "n": "Pierogi z jagodami", "g": "8 szt.", "c": "27" },
-        { "n": "Kids-Burger", "o": "150 g wołowiny, sałata, ogórek kanapkowy, sosy", "g": "150 g", "c": "35" },
-        { "n": "Nuggetsy z kurczaka", "o": "z frytkami i marchewką", "g": "100 / 150 / 100 g", "c": "29" }
-      ]
-    },
-    {
-      "id": "desery", "nazwa": "Desery",
-      "pozycje": [
-        { "n": "Szarlotka na ciepło", "o": "z lodami, bitą śmietaną, sosem czekoladowym", "c": "29" },
-        { "n": "Fondant czekoladowy", "o": "z lodami, bitą śmietaną, sosem czekoladowym", "c": "29" },
-        { "n": "Tiramisu", "c": "29" }
-      ]
-    },
-    {
-      "id": "dodatki", "nazwa": "Dodatki",
-      "uwaga": "Ceny chrzanu, musztardy i śmietany do potwierdzenia z karczmą.",
-      "pozycje": [
-        { "n": "Frytki", "g": "200 g", "c": "16" },
-        { "n": "Ziemniaki smażone", "g": "200 g", "c": "17" },
-        { "n": "Ziemniaki z wody", "g": "200 g", "c": "17" },
-        { "n": "Kopytka", "g": "200 g", "c": "18" },
-        { "n": "Kapusta zasmażana", "g": "200 g", "c": "18" },
-        { "n": "Zestaw surówek", "g": "200 g", "c": "19" },
-        { "n": "Pieczywo", "g": "3 pajdy", "c": "14" },
-        { "n": "Chrzan / musztarda", "g": "100 g", "c": "?" },
-        { "n": "Kwaśna śmietana", "g": "50 g", "c": "?" }
-      ]
+     "n": "Rydze smażone na maśle",
+     "o": "rydze z cebulką, podawane z grzanką",
+     "g": "150 g",
+     "c": "48",
+     "n_en": "Saffron milk caps fried in butter",
+     "o_en": "wild mushrooms with onion, served on toast"
     }
-  ]
+   ],
+   "nazwa_en": "Starters"
+  },
+  {
+   "id": "zupy",
+   "nazwa": "Zupy",
+   "pozycje": [
+    {
+     "n": "Rosół z makaronem",
+     "g": "400 ml",
+     "c": "23",
+     "n_en": "Chicken broth with noodles"
+    },
+    {
+     "n": "Barszcz z uszkami",
+     "g": "400 ml",
+     "c": "25",
+     "n_en": "Beetroot soup with small dumplings"
+    },
+    {
+     "n": "Żurek w chlebie",
+     "g": "300 ml",
+     "c": "32",
+     "n_en": "Sour rye soup in a bread bowl"
+    },
+    {
+     "n": "Żurek z jajkiem i kiełbasą",
+     "g": "400 ml",
+     "c": "33",
+     "n_en": "Sour rye soup with egg and sausage"
+    },
+    {
+     "n": "Kwaśnica standardowa",
+     "o": "z żeberkiem",
+     "g": "650 ml",
+     "c": "28",
+     "n_en": "Kwaśnica, highlander sauerkraut soup",
+     "o_en": "with a pork rib"
+    },
+    {
+     "n": "Flaczki wołowe",
+     "g": "400 ml",
+     "c": "29",
+     "n_en": "Beef tripe soup"
+    }
+   ],
+   "nazwa_en": "Soups"
+  },
+  {
+   "id": "dania-glowne",
+   "nazwa": "Dania główne",
+   "pozycje": [
+    {
+     "n": "Żeberko wieprzowe BBQ",
+     "o": "ze smażonymi ziemniakami i kapustą zasmażaną",
+     "g": "450 / 150 / 150 g",
+     "c": "69",
+     "n_en": "BBQ pork ribs",
+     "o_en": "with fried potatoes and braised cabbage"
+    },
+    {
+     "n": "Golonka pieczona",
+     "o": "z kością, podawana na kapuście zasmażanej z musztardą, chrzanem i pieczywem",
+     "g": "350 / 150 g",
+     "c": "69",
+     "n_en": "Roast pork knuckle",
+     "o_en": "on the bone, served on braised cabbage with mustard, horseradish and bread"
+    },
+    {
+     "n": "Polędwiczki drobiowe",
+     "o": "w płatkach kukurydzianych, z frytkami i zestawem surówek",
+     "g": "250 / 200 / 150 g",
+     "c": "54",
+     "n_en": "Chicken tenders in a cornflake crust",
+     "o_en": "with fries and a selection of slaws"
+    },
+    {
+     "n": "Górski pstrąg smażony",
+     "o": "z frytkami i sałatką szefa",
+     "g": "350–400 / 200 / 150 g",
+     "c": "67",
+     "n_en": "Pan-fried mountain trout",
+     "o_en": "with fries and chef's salad"
+    },
+    {
+     "n": "Kotlet wieprzowy",
+     "o": "smażony na smalcu, z kapustą zasmażaną i ziemniakami z wody okraszonymi skwarkami",
+     "g": "200 / 150 / 150 g",
+     "c": "56",
+     "n_en": "Pork cutlet",
+     "o_en": "fried in lard, with braised cabbage and boiled potatoes topped with pork cracklings"
+    },
+    {
+     "n": "Pieczeń wieprzowa Bacy",
+     "o": "w sosie borowikowym, z kopytkami i burakami",
+     "g": "250 / 150 / 150 g",
+     "c": "63",
+     "n_en": "Shepherd's roast pork",
+     "o_en": "in porcini sauce, with kopytka (potato dumplings) and beetroot"
+    },
+    {
+     "n": "Gulasz wołowy",
+     "o": "z kopytkami i burakami",
+     "g": "400 / 250 / 150 g",
+     "c": "65",
+     "n_en": "Beef goulash",
+     "o_en": "with kopytka (potato dumplings) and beetroot"
+    },
+    {
+     "n": "Gulasz wieprzowy",
+     "o": "z kopytkami i ogórkiem kiszonym",
+     "g": "400 / 250 / 150 g",
+     "c": "63",
+     "n_en": "Pork goulash",
+     "o_en": "with kopytka (potato dumplings) and pickled cucumber"
+    },
+    {
+     "n": "Stek po staropolsku z kością",
+     "o": "grillowana cebulka, pieczarki, ziemniak pieczony, ogórek kiszony",
+     "g": "300 / 150 / 150 g",
+     "c": "69",
+     "n_en": "Old Polish-style steak on the bone",
+     "o_en": "grilled onion, mushrooms, baked potato, pickled cucumber"
+    },
+    {
+     "n": "Policzka wołowe",
+     "o": "z puree ziemniaczanym i burakami",
+     "g": "200 / 150 / 150 g",
+     "c": "69",
+     "n_en": "Beef cheeks",
+     "o_en": "with mashed potatoes and beetroot"
+    },
+    {
+     "n": "Filet drobiowy",
+     "o": "w sosie śmietanowym, z kopytkami i sałatką szefa",
+     "g": "250 / 150 / 150 g",
+     "c": "54",
+     "n_en": "Chicken fillet in cream sauce",
+     "o_en": "with kopytka (potato dumplings) and chef's salad"
+    }
+   ],
+   "nazwa_en": "Main courses"
+  },
+  {
+   "id": "rondel",
+   "nazwa": "Rondel Głodnego Chłopa",
+   "uwaga": "Danie dla czterech osób",
+   "pozycje": [
+    {
+     "n": "Rondel Głodnego Chłopa",
+     "o": "golonka, żebro BBQ, pieczeń w borowikach, dwa rodzaje mięsa z grilla, trzy rodzaje pierogów, smażone ziemniaczki, kapusta zasmażana",
+     "g": "dla 4 osób",
+     "c": "249",
+     "n_en": "The Hungry Peasant's Pan",
+     "o_en": "pork knuckle, BBQ ribs, roast pork in porcini sauce, two kinds of grilled meat, three kinds of pierogi, fried potatoes, braised cabbage",
+     "g_en": "for 4 people"
+    }
+   ],
+   "nazwa_en": "The Hungry Peasant's Pan",
+   "uwaga_en": "A sharing dish for four"
+  },
+  {
+   "id": "pierogi",
+   "nazwa": "Pierogi",
+   "uwaga": "10 sztuk, z okrasą ze skwarek",
+   "pozycje": [
+    {
+     "n": "Pierogi ruskie",
+     "c": "41",
+     "n_en": "Pierogi ruskie",
+     "o_en": "filled with potato and curd cheese"
+    },
+    {
+     "n": "Pierogi z kapustą",
+     "c": "41",
+     "n_en": "Pierogi with cabbage"
+    },
+    {
+     "n": "Pierogi z mięsem",
+     "c": "41",
+     "n_en": "Pierogi with meat"
+    },
+    {
+     "n": "Pierogi z rydzami",
+     "c": "42",
+     "n_en": "Pierogi with saffron milk caps",
+     "o_en": "filled with wild mushrooms"
+    },
+    {
+     "n": "Pyzdryki z jagnięciną",
+     "o": "pierogi z jagnięciną",
+     "c": "45",
+     "n_en": "Pyzdryki, lamb pierogi",
+     "o_en": "dumplings filled with lamb"
+    }
+   ],
+   "nazwa_en": "Pierogi",
+   "uwaga_en": "10 dumplings, topped with pork cracklings"
+  },
+  {
+   "id": "burgery",
+   "nazwa": "Burgery",
+   "uwaga": "Podawane z frytkami",
+   "pozycje": [
+    {
+     "n": "Góral Burger",
+     "o": "mix sałat, ogórek kanapkowy, pomidor, czerwona cebula, 2× grillowana wołowina przełożona boczkiem, oscypek, żurawina, sosy",
+     "g": "300 g",
+     "c": "56",
+     "n_en": "Góral Burger",
+     "o_en": "mixed leaves, pickle, tomato, red onion, two grilled beef patties layered with bacon, oscypek cheese, cranberry, sauces"
+    },
+    {
+     "n": "Classic Burger",
+     "o": "mix sałat, ogórek kanapkowy, pomidor, czerwona cebula, 2× grillowana wołowina przełożona boczkiem, sosy",
+     "g": "300 g",
+     "c": "56",
+     "n_en": "Classic Burger",
+     "o_en": "mixed leaves, pickle, tomato, red onion, two grilled beef patties layered with bacon, sauces"
+    },
+    {
+     "n": "Burger z szarpaną wołowiną",
+     "o": "mix sałat, ogórek kanapkowy, karmelizowana cebulka, szarpana wołowina, grillowany ser, musztarda słoneczna, sriracha mayo",
+     "g": "200 g",
+     "c": "56",
+     "n_en": "Pulled beef burger",
+     "o_en": "mixed leaves, pickle, caramelised onion, pulled beef, grilled cheese, mustard, sriracha mayo"
+    },
+    {
+     "n": "Burger wegetariański",
+     "o": "panierowany camembert, grillowana cukinia, pomidor, bazyliowe mayo",
+     "g": "180 g",
+     "c": "45",
+     "n_en": "Vegetarian burger",
+     "o_en": "breaded camembert, grilled courgette, tomato, basil mayo"
+    }
+   ],
+   "nazwa_en": "Burgers",
+   "uwaga_en": "Served with fries"
+  },
+  {
+   "id": "pizza",
+   "nazwa": "Pizza Oberży",
+   "uwaga": "Ceny: 22 cm / 30 cm. Każda z sosem, serem i oregano. Dodatki: wegetariański 5, mięsny 7, ser lub oscypek 7, sos czosnkowy 4, ketchup 4, pudełko 4.",
+   "pozycje": [
+    {
+     "n": "Margherita",
+     "o": "sos, ser, oregano",
+     "c": "26 / 36",
+     "n_en": "Margherita",
+     "o_en": "tomato sauce, cheese, oregano"
+    },
+    {
+     "n": "Parma",
+     "o": "szynka",
+     "c": "30 / 40",
+     "n_en": "Parma",
+     "o_en": "ham"
+    },
+    {
+     "n": "Kozacka",
+     "o": "pieczarki, salami, oliwki, kurczak, papryka",
+     "c": "36 / 46",
+     "n_en": "Kozacka",
+     "o_en": "mushrooms, salami, olives, chicken, peppers"
+    },
+    {
+     "n": "Salami",
+     "o": "salami",
+     "c": "32 / 42",
+     "n_en": "Salami",
+     "o_en": "salami"
+    },
+    {
+     "n": "Napoletana",
+     "o": "pieczarki, bekon, kabanos, cebula",
+     "c": "34 / 44",
+     "n_en": "Napoletana",
+     "o_en": "mushrooms, bacon, kabanos sausage, onion"
+    },
+    {
+     "n": "Vera",
+     "o": "kurczak, pieczarki, szynka, kukurydza",
+     "c": "36 / 46",
+     "n_en": "Vera",
+     "o_en": "chicken, mushrooms, ham, sweetcorn"
+    },
+    {
+     "n": "Ciro",
+     "o": "pieczarki, jalapeno, salami, kukurydza, oliwki",
+     "c": "34 / 44",
+     "n_en": "Ciro",
+     "o_en": "mushrooms, jalapeño, salami, sweetcorn, olives"
+    },
+    {
+     "n": "Stragioni",
+     "o": "pieczarki, szynka, cebula",
+     "c": "31 / 41",
+     "n_en": "Stragioni",
+     "o_en": "mushrooms, ham, onion"
+    },
+    {
+     "n": "Bardzo dobra",
+     "o": "kurczak, ananas",
+     "c": "31 / 41",
+     "n_en": "Bardzo dobra",
+     "o_en": "chicken, pineapple"
+    },
+    {
+     "n": "Prosciutto",
+     "o": "szynka parmeńska, rukola",
+     "c": "34 / 44",
+     "n_en": "Prosciutto",
+     "o_en": "Parma ham, rocket"
+    },
+    {
+     "n": "Del capo",
+     "o": "pieczarki, czosnek, kurczak, pomidor",
+     "c": "34 / 44",
+     "n_en": "Del capo",
+     "o_en": "mushrooms, garlic, chicken, tomato"
+    },
+    {
+     "n": "Góralska",
+     "o": "ziemniaki, oscypek, bekon, żurawina",
+     "c": "36 / 46",
+     "n_en": "Góralska",
+     "o_en": "potatoes, oscypek cheese, bacon, cranberry"
+    },
+    {
+     "n": "Bajer",
+     "o": "cztery składniki na życzenie, do wyboru ze składników pozostałych pizz",
+     "c": "36 / 46",
+     "n_en": "Bajer",
+     "o_en": "any four toppings of your choice from the other pizzas"
+    }
+   ],
+   "nazwa_en": "Oberża pizza",
+   "uwaga_en": "Prices: 22 cm / 30 cm. Every pizza comes with tomato sauce, cheese and oregano. Extras: vegetable 5, meat 7, cheese or oscypek 7, garlic sauce 4, ketchup 4, takeaway box 4."
+  },
+  {
+   "id": "dla-dzieci",
+   "nazwa": "Dla dzieci",
+   "pozycje": [
+    {
+     "n": "Naleśnik",
+     "o": "z czekoladą i bitą śmietaną",
+     "g": "200 g",
+     "c": "25",
+     "n_en": "Pancake",
+     "o_en": "with chocolate and whipped cream"
+    },
+    {
+     "n": "Pierogi z truskawkami",
+     "g": "8 szt.",
+     "c": "27",
+     "n_en": "Strawberry pierogi",
+     "g_en": "8 pcs"
+    },
+    {
+     "n": "Pierogi z jagodami",
+     "g": "8 szt.",
+     "c": "27",
+     "n_en": "Bilberry pierogi",
+     "g_en": "8 pcs"
+    },
+    {
+     "n": "Kids-Burger",
+     "o": "150 g wołowiny, sałata, ogórek kanapkowy, sosy",
+     "g": "150 g",
+     "c": "35",
+     "n_en": "Kids' burger",
+     "o_en": "150 g beef, lettuce, pickle, sauces"
+    },
+    {
+     "n": "Nuggetsy z kurczaka",
+     "o": "z frytkami i marchewką",
+     "g": "100 / 150 / 100 g",
+     "c": "29",
+     "n_en": "Chicken nuggets",
+     "o_en": "with fries and carrot"
+    }
+   ],
+   "nazwa_en": "For kids"
+  },
+  {
+   "id": "desery",
+   "nazwa": "Desery",
+   "pozycje": [
+    {
+     "n": "Szarlotka na ciepło",
+     "o": "z lodami, bitą śmietaną, sosem czekoladowym",
+     "c": "29",
+     "n_en": "Warm apple pie",
+     "o_en": "with ice cream, whipped cream and chocolate sauce"
+    },
+    {
+     "n": "Fondant czekoladowy",
+     "o": "z lodami, bitą śmietaną, sosem czekoladowym",
+     "c": "29",
+     "n_en": "Chocolate fondant",
+     "o_en": "with ice cream, whipped cream and chocolate sauce"
+    },
+    {
+     "n": "Tiramisu",
+     "c": "29",
+     "n_en": "Tiramisu"
+    }
+   ],
+   "nazwa_en": "Desserts"
+  },
+  {
+   "id": "dodatki",
+   "nazwa": "Dodatki",
+   "uwaga": "Ceny chrzanu, musztardy i śmietany do potwierdzenia z karczmą.",
+   "pozycje": [
+    {
+     "n": "Frytki",
+     "g": "200 g",
+     "c": "16",
+     "n_en": "Fries"
+    },
+    {
+     "n": "Ziemniaki smażone",
+     "g": "200 g",
+     "c": "17",
+     "n_en": "Fried potatoes"
+    },
+    {
+     "n": "Ziemniaki z wody",
+     "g": "200 g",
+     "c": "17",
+     "n_en": "Boiled potatoes"
+    },
+    {
+     "n": "Kopytka",
+     "g": "200 g",
+     "c": "18",
+     "n_en": "Kopytka (potato dumplings)"
+    },
+    {
+     "n": "Kapusta zasmażana",
+     "g": "200 g",
+     "c": "18",
+     "n_en": "Braised cabbage"
+    },
+    {
+     "n": "Zestaw surówek",
+     "g": "200 g",
+     "c": "19",
+     "n_en": "Selection of slaws"
+    },
+    {
+     "n": "Pieczywo",
+     "g": "3 pajdy",
+     "c": "14",
+     "n_en": "Bread",
+     "g_en": "3 slices"
+    },
+    {
+     "n": "Chrzan / musztarda",
+     "g": "100 g",
+     "c": "?",
+     "n_en": "Horseradish / mustard"
+    },
+    {
+     "n": "Kwaśna śmietana",
+     "g": "50 g",
+     "c": "?",
+     "n_en": "Sour cream"
+    }
+   ],
+   "nazwa_en": "Sides",
+   "uwaga_en": "Prices for horseradish, mustard and sour cream to be confirmed with the restaurant."
+  }
+ ]
 }

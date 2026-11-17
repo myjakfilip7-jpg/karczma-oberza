@@ -1,0 +1,109 @@
+// Karczma Oberża — karta dań renderowana z menu.json (PL i EN z jednego pliku)
+// EN (czy strona jest po angielsku) pochodzi ze strona.js, wczytanego wcześniej
+const BAZA = document.currentScript.dataset.baza || "";
+
+const T = EN ? {
+  wydanie: d => "Edition of " + d + " · prices in PLN",
+  wszystkie: n => n + (n === 1 ? " dish" : " dishes") + " on the menu",
+  trafienia: (n, q) => n + (n === 1 ? " result" : " results") + " for “" + q + "”",
+  pusto: q => "Nothing on the menu matches “" + q + "”",
+  blad: "The menu did not load. Refresh the page or call us: +48 505 176 315.",
+} : {
+  wydanie: d => "Wydanie z " + d + " · ceny w złotych",
+  wszystkie: n => n + " " + odmiana(n) + " w karcie",
+  trafienia: (n, q) => n + " " + odmiana(n) + " dla „" + q + "”",
+  pusto: q => "Nie mamy w karcie „" + q + "”",
+  blad: "Karta nie wczytała się. Odśwież stronę albo zadzwoń: 505 176 315.",
+};
+
+function odmiana(n) {
+  return n === 1 ? "pozycja" : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? "pozycje" : "pozycji";
+}
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ł/g, "l");
+const tl = (obj, pole) => (EN && obj[pole + "_en"]) || obj[pole];
+
+const nav = document.getElementById("kat-nav");
+const lista = document.getElementById("lista");
+const wynik = document.getElementById("wynik");
+const pusto = document.getElementById("pusto");
+const pole = document.getElementById("szukaj");
+const form = document.getElementById("szukaj-form");
+
+fetch(BAZA + "menu.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(menu => {
+  document.getElementById("wydanie").textContent = T.wydanie(menu.wydanie);
+  const wpisy = [];
+
+  menu.kategorie.forEach(k => {
+    const a = el("a", "", tl(k, "nazwa"));
+    a.href = "#" + k.id;
+    nav.append(a);
+
+    const sekcja = el("section", "kat");
+    sekcja.id = k.id;
+    sekcja.append(el("h2", "kat-h", tl(k, "nazwa")));
+    if (k.uwaga) sekcja.append(el("p", "uwaga", tl(k, "uwaga")));
+    const ul = el("ul");
+    k.pozycje.forEach(p => {
+      const li = el("li");
+      li.append(el("span", "n", tl(p, "n")), el("span", "c", p.c === "?" ? "—" : p.c));
+      // w wersji angielskiej pokazujemy też polską nazwę — tak gość zamawia u kelnera
+      if (EN && p.n_en && p.n_en !== p.n) { const pl = el("span", "pl", p.n); pl.lang = "pl"; li.append(pl); }
+      if (p.o) li.append(el("span", "o", tl(p, "o")));
+      if (p.g) li.append(el("span", "g", tl(p, "g")));
+      ul.append(li);
+      wpisy.push({ li, sekcja, tekst: norm([p.n, p.o || "", k.nazwa, p.n_en || "", p.o_en || "", k.nazwa_en || ""].join(" ")) });
+    });
+    sekcja.append(ul);
+    lista.append(sekcja);
+  });
+
+  const wszystkie = wpisy.length;
+  const filtruj = () => {
+    const surowe = pole.value.trim();
+    const q = norm(surowe);
+    form.classList.toggle("ma-tekst", pole.value.length > 0);
+    let trafienia = 0;
+    const widoczne = new Set();
+    wpisy.forEach(w => {
+      const pasuje = !q || q.split(/\s+/).every(slowo => w.tekst.includes(slowo));
+      w.li.hidden = !pasuje;
+      if (pasuje) { trafienia++; widoczne.add(w.sekcja); }
+    });
+    document.querySelectorAll(".kat").forEach(s => { s.hidden = !widoczne.has(s); });
+    nav.querySelectorAll("a").forEach(a => { a.hidden = !widoczne.has(document.getElementById(a.hash.slice(1))); });
+    pusto.hidden = trafienia > 0;
+    if (!q) wynik.textContent = T.wszystkie(wszystkie);
+    else if (trafienia) wynik.textContent = T.trafienia(trafienia, surowe);
+    else { wynik.textContent = ""; document.getElementById("pusto-tekst").textContent = T.pusto(surowe); }
+  };
+  const wyczysc = () => { pole.value = ""; filtruj(); pole.focus(); };
+  pole.addEventListener("input", filtruj);
+  form.addEventListener("submit", e => { e.preventDefault(); pole.blur(); });
+  document.getElementById("wyczysc").addEventListener("click", wyczysc);
+  document.getElementById("pusto-wyczysc").addEventListener("click", wyczysc);
+  addEventListener("keydown", e => {
+    if (e.key === "/" && document.activeElement !== pole) { e.preventDefault(); pole.focus(); }
+    if (e.key === "Escape" && document.activeElement === pole && pole.value) wyczysc();
+  });
+  filtruj();
+
+  // podświetlanie bieżącej kategorii
+  const linki = [...nav.querySelectorAll("a")];
+  const obs = new IntersectionObserver(wp => wp.forEach(w => {
+    if (!w.isIntersecting) return;
+    linki.forEach(l => l.classList.toggle("aktywna", l.hash === "#" + w.target.id));
+    const akt = nav.querySelector(".aktywna");
+    if (akt && nav.scrollWidth > nav.clientWidth) nav.scrollTo({ left: akt.offsetLeft - 20, behavior: "smooth" });
+  }), { rootMargin: "-150px 0px -65% 0px" });
+  document.querySelectorAll(".kat").forEach(s => obs.observe(s));
+
+  if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+}).catch(() => {
+  wynik.textContent = "";
+  lista.append(el("p", "lead", T.blad));
+});
+
+const doGory = document.getElementById("do-gory");
+addEventListener("scroll", () => doGory.classList.toggle("widac", scrollY > 900), { passive: true });
+doGory.addEventListener("click", () => scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }));

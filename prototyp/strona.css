@@ -349,3 +349,10 @@ dl.fakty { margin-bottom: 0; }
 .do-gory { position: fixed; right: var(--margines); bottom: calc(var(--pasek) + 20px); z-index: 20; width: 48px; height: 48px; background: var(--czern); color: var(--biel); border: 0; cursor: pointer; font-size: 18px; opacity: 0; visibility: hidden; transition: opacity var(--szybko), visibility var(--szybko), background var(--szybko); }
 .do-gory.widac { opacity: 1; visibility: visible; }
 .do-gory:hover { background: var(--czerwien); }
+
+/* ───────── język ───────── */
+.jezyk { font-family: var(--ui); font-size: var(--t-s); font-weight: 600; letter-spacing: .06em; text-decoration: none; padding: 9px 4px; }
+.jezyk:hover { text-decoration: underline; }
+@media (max-width: 960px) { .naglowek .prawa .jezyk { display: none; } }
+.menu .jezyk-m { font-family: var(--ui); font-size: 15px; font-weight: 500; }
+.kat .pl { grid-column: 1; font-style: italic; font-size: 15px; color: var(--drewno); }
