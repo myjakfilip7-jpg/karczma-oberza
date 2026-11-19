@@ -2,71 +2,107 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#12100e">
 <title>Karczma Oberża — research marki</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Great+Vibes&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prototyp/strona.css?v=5">
+<style>
+.start { min-height: 100svh; display: grid; align-items: end; padding: calc(var(--naglowek) + 48px) 0 clamp(24px, 3vw, 40px); }
+.start .wm { font-size: clamp(52px, 14vw, 230px); align-items: flex-start; max-width: 100%; }
+.liczby { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--kol); border-top: 1px solid var(--linia); padding-top: 28px; }
+.liczby div { display: grid; gap: 6px; align-content: start; }
+.liczby dt { order: 2; font-size: 14px; color: var(--tekst-2); line-height: 1.45; }
+.liczby dd { margin: 0; font-family: var(--display); font-size: var(--h-l); line-height: .95; font-variant-numeric: lining-nums; }
+@media (max-width: 860px) { .liczby { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; } }
+</style>
 </head>
 <body>
-<div class="haft"></div>
-<header class="wrap top">
-  <span class="note">Research marki · 17.11.2026</span>
-  <nav>
-    <a href="index.html" aria-current="page">Start</a>
-    <a href="branding.html">Branding</a>
-    <a href="media.html">Media i opinie</a>
-  </nav>
+<a class="skok" href="#tresc">Przejdź do treści</a>
+
+<header class="naglowek">
+  <div class="wrap">
+    <a class="wm" href="index.html" aria-label="Karczma Oberża — research"><small>KARCZMA</small><b>OBER<i class="z">Z</i>A</b></a>
+    <nav class="nawigacja" aria-label="Główna">
+      <a href="index.html" aria-current="page">Start</a>
+      <a href="branding.html">Księga znaku</a>
+      <a href="media.html">Media i opinie</a>
+      <a href="prototyp/index.html">Prototyp strony</a>
+    </nav>
+    <div class="prawa">
+      <button class="menu-btn" type="button" aria-controls="menu" aria-expanded="false" aria-label="Otwórz menu"><span></span><span></span></button>
+    </div>
+  </div>
 </header>
+<div class="menu" id="menu">
+  <a class="duzy" href="index.html">Start</a>
+  <a class="duzy" href="branding.html">Księga znaku</a>
+  <a class="duzy" href="media.html">Media i opinie</a>
+  <a class="duzy" href="prototyp/index.html">Prototyp strony</a>
+</div>
 
-<main>
-<section class="hero" style="text-align:center">
-  <div class="wrap">
-    <span class="wm l"><small>KARCZMA</small><b>OBER<i class="z">Z</i>A</b></span>
-    <p class="skrypt" style="margin:28px 0 6px">Swojskie smaki, ciepło i gościnność</p>
-    <p class="note">ul. Piłsudskiego 23, Krynica-Zdrój · 505 176 315 · codziennie 12:00–22:00</p>
-  </div>
-</section>
+<main id="tresc">
 
-<section>
+<section class="start">
   <div class="wrap">
-    <a class="card" href="prototyp/index.html" style="display:block;margin-bottom:20px;background:var(--czern);color:var(--biel);border-color:var(--czern)">
-      <p class="eyebrow" style="color:#e9b9a6">Prototyp</p>
-      <h3>Strona internetowa karczmy</h3>
-      <p>Strona główna i tekstowa karta dań zbudowane na tej księdze znaku. Zdjęcia tymczasowe z wizytówki Google.</p>
-    </a>
-    <div class="grid g2">
-      <a class="card" href="branding.html">
-        <p class="eyebrow">Podstrona 1</p>
-        <h3>Branding</h3>
-        <p>Księga znaku w wersji 3, zgodna z prototypem strony: znak w wariantach, dwa kroje, paleta „noc, len i żar”, haft, elementy interfejsu, wytyczne zdjęć i trzy szablony.</p>
-      </a>
-      <a class="card" href="media.html">
-        <p class="eyebrow">Podstrona 2</p>
-        <h3>Media i opinie</h3>
-        <p>Facebook, Instagram, TikTok, Google Maps, Tripadvisor i katalogi: liczby, linki, galeria zdjęć, najnowsze publikacje, podsumowanie opinii.</p>
-      </a>
+    <p class="et wejdz" style="--i:0">Research marki · Krynica-Zdrój · stan na 20.11.2026</p>
+    <h1 class="wm wejdz" style="--i:1;margin-top:clamp(20px,3vw,40px)"><small>KARCZMA</small><b>OBER<i class="z">Z</i>A</b></h1>
+    <div class="metryka wejdz" style="--i:2">
+      <span>ul. Piłsudskiego 23, Krynica-Zdrój</span>
+      <span>505 176 315</span>
+      <span>Codziennie 12:00–22:00</span>
     </div>
   </div>
 </section>
+<div class="haft szyj" aria-hidden="true"></div>
 
-<section class="lniana">
-  <div class="wrap">
-    <h2>W skrócie</h2>
-    <div class="grid g4">
-      <div class="stat"><em>Google</em><b>4,5</b><span>4 589 opinii</span></div>
-      <div class="stat"><em>Facebook</em><b>3,5 tys.</b><span>obserwujących · 92% poleca</span></div>
-      <div class="stat"><em>Tripadvisor</em><b>4,2</b><span>136 opinii</span></div>
-      <div class="stat"><em>Karta dań</em><b>9</b><span>stron, wydanie z 1.11.2026</span></div>
+<section class="sekcja z-lista">
+  <div class="wrap g12">
+    <div class="glowa pokaz">
+      <p class="et">Zawartość</p>
+      <h2 class="h-l">Od researchu do strony</h2>
+      <p class="cichy">Wszystko, co zebraliśmy i zbudowaliśmy dla Karczmy Oberża, w kolejności od najnowszego.</p>
     </div>
-    <p style="margin-top:28px">Pełna karta dań spisana z Facebooka: <a href="data/menu.md"><code>data/menu.md</code></a>.</p>
+    <ul class="lista">
+      <li class="pokaz" style="--i:0"><a href="prototyp/index.html"><span class="nz">Prototyp strony</span><span class="cn meta">PL i EN · 3 podstrony</span><span class="op">Strona główna, karta dań z wyszukiwarką i podstrona dowozu. Działa na telefonie, karta czyta ceny z jednego pliku.</span></a></li>
+      <li class="pokaz" style="--i:1"><a href="branding.html"><span class="nz">Księga znaku</span><span class="cn meta">wersja 3</span><span class="op">Znak w wariantach, dwa kroje, paleta „noc, len i żar”, haft, elementy interfejsu, wytyczne zdjęć i trzy szablony.</span></a></li>
+      <li class="pokaz" style="--i:2"><a href="media.html"><span class="nz">Media i opinie</span><span class="cn meta">6 kanałów</span><span class="op">Facebook, Instagram, TikTok, Google Maps, Tripadvisor i katalogi: liczby, linki, zdjęcia, publikacje, podsumowanie opinii.</span></a></li>
+      <li class="pokaz" style="--i:0"><a href="data/menu.md"><span class="nz">Karta dań, dane źródłowe</span><span class="cn meta">60 pozycji</span><span class="op">Karta spisana ze zdjęć opublikowanych na Facebooku 1.11.2026, z uwagami i pozycjami ze starszej karty.</span></a></li>
+    </ul>
   </div>
 </section>
+
+<section class="sekcja glebsza">
+  <div class="wrap">
+    <p class="et pokaz" style="margin-bottom:28px">W liczbach</p>
+    <dl class="liczby pokaz">
+      <div><dt>średnia w Google<br>z 4 589 opinii</dt><dd>4,5</dd></div>
+      <div><dt>gości poleca karczmę<br>na Facebooku</dt><dd>92%</dd></div>
+      <div><dt>średnia na Tripadvisorze<br>ze 136 opinii</dt><dd>4,2</dd></div>
+      <div><dt>miejsce na 158 restauracji<br>w Krynicy (Restaurant Guru)</dt><dd>2.</dd></div>
+    </dl>
+    <p class="pokaz" style="margin-top:40px"><a class="link" href="media.html">Wszystkie kanały i źródła <span class="strz" aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+
 </main>
 
-<div class="haft"></div>
-<footer class="wrap">Opracowanie robocze na podstawie publicznych materiałów Karczmy Oberża. Logo i zdjęcia należą do właściciela karczmy.</footer>
+<div class="haft szyj" aria-hidden="true"></div>
+<footer class="stopka">
+  <div class="wrap">
+    <div class="gora">
+      <div><h2>Research</h2><ul><li><a href="branding.html">Księga znaku</a></li><li><a href="media.html">Media i opinie</a></li><li><a href="data/menu.md">Karta dań (dane)</a></li></ul></div>
+      <div><h2>Prototyp</h2><ul><li><a href="prototyp/index.html">Strona główna</a></li><li><a href="prototyp/karta.html">Karta</a></li><li><a href="prototyp/dowoz.html">Dowóz</a></li><li><a href="prototyp/en/index.html">English version</a></li></ul></div>
+      <div><h2>Repozytorium</h2><ul><li><a href="https://github.com/myjakfilip7-jpg/karczma-oberza" target="_blank" rel="noopener">GitHub</a></li></ul></div>
+    </div>
+    <div class="nota maly"><span>Opracowanie robocze na podstawie publicznych materiałów. Logo i zdjęcia należą do właściciela karczmy.</span></div>
+  </div>
+  <div class="olbrzym" aria-hidden="true">OBER<i class="z">Z</i>A</div>
+</footer>
+
+<script src="prototyp/strona.js?v=5"></script>
 </body>
 </html>

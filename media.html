@@ -2,198 +2,221 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#12100e">
 <title>Karczma Oberża — media i opinie</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Great+Vibes&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="preconnect" href="https://lh3.googleusercontent.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prototyp/strona.css?v=5">
+<style>
+.liczby { margin: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--kol); border-top: 1px solid var(--linia); padding-top: 28px; }
+.liczby div { display: grid; gap: 6px; align-content: start; }
+.liczby dt { order: 2; font-size: 14px; color: var(--tekst-2); line-height: 1.45; }
+.liczby dd { margin: 0; font-family: var(--display); font-size: clamp(34px, 4.6vw, 68px); line-height: .95; font-variant-numeric: lining-nums; }
+@media (max-width: 960px) { .liczby { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; } }
+.dwa { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 6vw, 96px); }
+@media (max-width: 860px) { .dwa { grid-template-columns: 1fr; } }
+.wpisy { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--linia); }
+.wpisy li { border-bottom: 1px solid var(--linia); }
+.wpisy a, .wpisy .wiersz { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding: 15px 0; text-decoration: none; }
+.wpisy a:hover span:first-child { color: var(--zar); }
+.wpisy span:last-child { flex: none; font-size: 14px; color: var(--tekst-2); text-align: right; }
+.wpisy .wiersz span:last-child { flex: initial; max-width: 60%; }
+.kol-glowa { display: grid; gap: 14px; margin-bottom: 24px; }
+.kol-glowa h3 { font-size: var(--h-m); }
+.tasma a { display: block; height: 100%; }
+</style>
 </head>
 <body>
-<div class="haft"></div>
-<header class="wrap top">
-  <a class="wm s" href="index.html" aria-label="Karczma Oberża — start"><small>KARCZMA</small><b>OBER<i class="z">Z</i>A</b></a>
-  <nav>
-    <a href="index.html">Start</a>
-    <a href="branding.html">Branding</a>
-    <a href="media.html" aria-current="page">Media i opinie</a>
-  </nav>
+<a class="skok" href="#tresc">Przejdź do treści</a>
+
+<header class="naglowek stala" data-zawsze>
+  <div class="wrap">
+    <a class="wm" href="index.html" aria-label="Karczma Oberża — research"><small>KARCZMA</small><b>OBER<i class="z">Z</i>A</b></a>
+    <nav class="nawigacja" aria-label="Główna">
+      <a href="index.html">Start</a>
+      <a href="branding.html">Księga znaku</a>
+      <a href="media.html" aria-current="page">Media i opinie</a>
+      <a href="prototyp/index.html">Prototyp strony</a>
+    </nav>
+    <div class="prawa">
+      <button class="menu-btn" type="button" aria-controls="menu" aria-expanded="false" aria-label="Otwórz menu"><span></span><span></span></button>
+    </div>
+  </div>
 </header>
+<div class="menu" id="menu">
+  <a class="duzy" href="index.html">Start</a>
+  <a class="duzy" href="branding.html">Księga znaku</a>
+  <a class="duzy" href="media.html">Media i opinie</a>
+  <a class="duzy" href="prototyp/index.html">Prototyp strony</a>
+</div>
 
-<main>
-<section class="hero">
+<main id="tresc">
+
+<section class="pod-glowa">
   <div class="wrap">
-    <p class="eyebrow">Obecność w sieci · stan na 17.11.2026</p>
-    <h1>Media, social media i opinie</h1>
-    <p class="lead">Wszystkie kanały Karczmy Oberża w jednym miejscu: liczby, linki, najnowsze publikacje, zdjęcia z wizytówki Google i to, co goście piszą w opiniach.</p>
+    <p class="et">Obecność w sieci · dane zebrane 17.11.2026</p>
+    <h1 class="h-xl" style="margin-top:16px;max-width:12ch">Media, kanały i opinie</h1>
+    <p class="wstep" style="margin-top:clamp(28px,4vw,48px)">Wszystkie miejsca, w których Karczma Oberża jest dziś widoczna: liczby, linki, zdjęcia, ostatnie publikacje i to, co goście piszą w opiniach.</p>
+  </div>
+</section>
+<div class="haft szyj" aria-hidden="true"></div>
+
+<section class="sekcja">
+  <div class="wrap">
+    <p class="et pokaz" style="margin-bottom:28px">Oceny i zasięgi</p>
+    <dl class="liczby pokaz">
+      <div><dt>Google<br>4 589 opinii</dt><dd>4,5</dd></div>
+      <div><dt>Facebook: poleca<br>443 opinie</dt><dd>92%</dd></div>
+      <div><dt>Facebook<br>obserwujących</dt><dd>3,5 tys.</dd></div>
+      <div><dt>Tripadvisor<br>136 opinii</dt><dd>4,2</dd></div>
+      <div><dt>Instagram<br>obserwujących</dt><dd>262</dd></div>
+    </dl>
+    <p class="maly pokaz" style="margin-top:28px;max-width:70ch">Ocena Google odczytana z wizytówki Localo, która pobiera dane z profilu Google. Pozostałe liczby bezpośrednio z profili. W rankingu Restaurant Guru karczma jest na 2. miejscu spośród 158 restauracji w Krynicy.</p>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>Oceny i zasięgi</h2>
-    <div class="grid g4">
-      <div class="stat"><em>Google</em><b>4,5</b><span>4 589 opinii</span></div>
-      <div class="stat"><em>Facebook</em><b>92%</b><span>poleca · 443 opinie · 3,5 tys. obserwujących</span></div>
-      <div class="stat"><em>Tripadvisor</em><b>4,2</b><span>136 opinii</span></div>
-      <div class="stat"><em>Restaurant Guru</em><b>2.</b><span>miejsce na 158 restauracji w Krynicy</span></div>
-      <div class="stat"><em>Instagram</em><b>262</b><span>obserwujących · 23 obserwowanych</span></div>
+<section class="sekcja glebsza z-lista">
+  <div class="wrap g12">
+    <div class="glowa pokaz">
+      <p class="et">Kanały</p>
+      <h2 class="h-l">Gdzie jest Oberża</h2>
+      <p class="cichy">Facebook jest kanałem głównym. Instagram stoi od kwietnia 2026.</p>
     </div>
-    <p class="note" style="margin-top:16px">Ocena Google odczytana z wizytówki Localo, która pobiera dane z profilu Google. Pozostałe liczby bezpośrednio z profili. Liczby zmieniają się z dnia na dzień.</p>
-  </div>
-</section>
-
-<section class="lniana">
-  <div class="wrap">
-    <h2>Kanały</h2>
-    <div class="grid g3">
-      <a class="card" href="https://www.facebook.com/oberza.swojskie.jadlo" target="_blank" rel="noopener">
-        <h3>Facebook</h3>
-        <p><code>/oberza.swojskie.jadlo</code></p>
-        <p>Główny kanał. 3,5 tys. obserwujących, 92% poleceń. Tu publikowana jest aktualna karta dań (1.11.2026) i ogłoszenia o godzinach.</p>
-      </a>
-      <a class="card" href="https://www.instagram.com/oberza_swojskie_jadlo/" target="_blank" rel="noopener">
-        <h3>Instagram</h3>
-        <p><code>@oberza_swojskie_jadlo</code></p>
-        <p>262 obserwujących. Głównie rolki z potrawami i grafiki okolicznościowe. W bio darmowa dostawa w Krynicy-Zdroju.</p>
-      </a>
-      <a class="card" href="https://www.tiktok.com/@karczma.oberza" target="_blank" rel="noopener">
-        <h3>TikTok</h3>
-        <p><code>@karczma.oberza</code></p>
-        <p>Konto z tym samym numerem telefonu. Zasięgów nie sprawdzono.</p>
-      </a>
-      <a class="card" href="https://www.google.com/maps/search/?api=1&query=Karczma+Ober%C5%BCa+Krynica-Zdr%C3%B3j+Pi%C5%82sudskiego+23" target="_blank" rel="noopener">
-        <h3>Google Maps</h3>
-        <p>„Karczma Oberża Krynica Zdrój – Dowóz”</p>
-        <p>Ocena 4,5 z 4 589 opinii. Największe źródło opinii i zdjęć gości.</p>
-      </a>
-      <a class="card" href="https://www.tripadvisor.com/Restaurant_Review-g652070-d11612288-Reviews-Oberza_Swojskie_Jadlo-Krynica_Zdroj_Lesser_Poland_Province_Southern_Poland.html" target="_blank" rel="noopener">
-        <h3>Tripadvisor</h3>
-        <p>„Oberża Swojskie Jadło”</p>
-        <p>4,2 na 5 ze 136 opinii. Profil pod starą nazwą.</p>
-      </a>
-      <a class="card" href="https://karczma-oberza-dowoz.localo.site/" target="_blank" rel="noopener">
-        <h3>Wizytówka Localo</h3>
-        <p><code>karczma-oberza-dowoz.localo.site</code></p>
-        <p>Zastępuje stronę www: opis, godziny, galeria, wpisy blogowe z 2025 r.</p>
-      </a>
-    </div>
-    <h3 style="margin:36px 0 10px">Pozostałe wpisy</h3>
-    <ul class="czysta">
-      <li><a href="https://www.krynica.pl/-l1/Karczma-Ober%C5%BCa-d226.html" target="_blank" rel="noopener">Krynica.pl</a><span>opis, e-mail, telefon</span></li>
-      <li><a href="https://pl.restaurantguru.com/Oberza-Swojskie-Jadlo-Krynica" target="_blank" rel="noopener">Restaurant Guru</a><span>2. miejsce na 158, karta od właściciela sprzed roku</span></li>
-      <li><a href="https://wanderlog.com/place/details/2739040/karczma-ober%C5%BCa-krynica-zdr%C3%B3j-dow%C3%B3z" target="_blank" rel="noopener">Wanderlog</a><span>godziny, link do Facebooka</span></li>
-      <li><a href="https://www.atrakcjekrynicy.pl/pizzeria-oberza.html" target="_blank" rel="noopener">Atrakcje Krynicy</a><span>stary wpis „Pizzeria Oberża”, nieaktualny telefon</span></li>
-      <li><a href="https://mapa.targeo.pl/oberza-swojskie-jadlo-marsz-jozefa-pilsudskiego-23-33-380-krynica-zdroj~21109889/restauracja/adres" target="_blank" rel="noopener">Targeo</a><span>stary telefon stacjonarny</span></li>
+    <ul class="lista">
+      <li class="pokaz" style="--i:0"><a href="https://www.facebook.com/oberza.swojskie.jadlo" target="_blank" rel="noopener"><span class="nz">Facebook</span><span class="cn meta">3,5 tys. · 92% poleca</span><span class="op">/oberza.swojskie.jadlo. Tu trafia aktualna karta dań (1.11.2026) i ogłoszenia o godzinach.</span></a></li>
+      <li class="pokaz" style="--i:1"><a href="https://www.instagram.com/oberza_swojskie_jadlo/" target="_blank" rel="noopener"><span class="nz">Instagram</span><span class="cn meta">262 obserwujących</span><span class="op">@oberza_swojskie_jadlo. Głównie rolki z potrawami i grafiki okolicznościowe. Ostatnia publikacja 24.04.2026.</span></a></li>
+      <li class="pokaz" style="--i:2"><a href="https://www.tiktok.com/@karczma.oberza" target="_blank" rel="noopener"><span class="nz">TikTok</span><span class="cn meta">zasięg niesprawdzony</span><span class="op">@karczma.oberza. Konto z tym samym numerem telefonu.</span></a></li>
+      <li class="pokaz" style="--i:0"><a href="https://www.google.com/maps/search/?api=1&query=Karczma+Ober%C5%BCa+Krynica-Zdr%C3%B3j+Pi%C5%82sudskiego+23" target="_blank" rel="noopener"><span class="nz">Google Maps</span><span class="cn meta">4,5 · 4 589 opinii</span><span class="op">Profil „Karczma Oberża Krynica Zdrój – Dowóz”. Największe źródło opinii i zdjęć gości.</span></a></li>
+      <li class="pokaz" style="--i:1"><a href="https://www.tripadvisor.com/Restaurant_Review-g652070-d11612288-Reviews-Oberza_Swojskie_Jadlo-Krynica_Zdroj_Lesser_Poland_Province_Southern_Poland.html" target="_blank" rel="noopener"><span class="nz">Tripadvisor</span><span class="cn meta">4,2 · 136 opinii</span><span class="op">Profil pod starą nazwą „Oberża Swojskie Jadło”.</span></a></li>
+      <li class="pokaz" style="--i:2"><a href="https://karczma-oberza-dowoz.localo.site/" target="_blank" rel="noopener"><span class="nz">Wizytówka Localo</span><span class="cn meta">zamiast strony www</span><span class="op">Opis, godziny, galeria i wpisy blogowe z 2025 r. Bez logo i kolorów marki.</span></a></li>
     </ul>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>Dane kontaktowe</h2>
-    <div class="grid g2">
-      <div>
-        <ul class="czysta">
-          <li><span>Adres</span><strong>ul. Marszałka J. Piłsudskiego 23, 33-380 Krynica-Zdrój</strong></li>
-          <li><span>Telefon</span><strong>505 176 315</strong></li>
-          <li><span>E-mail</span><strong>oberzaswojskiejadlo@gmail.com</strong></li>
-          <li><span>Godziny</span><strong>codziennie 12:00–22:00</strong></li>
-          <li><span>Usługi</span><strong>na miejscu, na wynos, dostawa</strong></li>
-        </ul>
-        <p class="note" style="margin-top:12px">W starych katalogach występuje też numer 18 471 60 84. Godziny z wizytówki Localo, w święta bywają inne (ogłoszenia na Facebooku).</p>
-      </div>
-      <iframe class="mapa" title="Mapa: Karczma Oberża, Piłsudskiego 23, Krynica-Zdrój" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Karczma+Ober%C5%BCa,+Pi%C5%82sudskiego+23,+Krynica-Zdr%C3%B3j&output=embed"></iframe>
+<section class="sekcja">
+  <div class="wrap dwa">
+    <div class="pokaz">
+      <div class="kol-glowa"><p class="et">Katalogi</p><h3>Pozostałe wpisy</h3></div>
+      <ul class="wpisy">
+        <li><a href="https://www.krynica.pl/-l1/Karczma-Ober%C5%BCa-d226.html" target="_blank" rel="noopener"><span>Krynica.pl</span><span>opis, e-mail, telefon</span></a></li>
+        <li><a href="https://pl.restaurantguru.com/Oberza-Swojskie-Jadlo-Krynica" target="_blank" rel="noopener"><span>Restaurant Guru</span><span>2. miejsce na 158, karta sprzed roku</span></a></li>
+        <li><a href="https://wanderlog.com/place/details/2739040/karczma-ober%C5%BCa-krynica-zdr%C3%B3j-dow%C3%B3z" target="_blank" rel="noopener"><span>Wanderlog</span><span>godziny, link do Facebooka</span></a></li>
+        <li><a href="https://www.atrakcjekrynicy.pl/pizzeria-oberza.html" target="_blank" rel="noopener"><span>Atrakcje Krynicy</span><span>„Pizzeria Oberża”, stary telefon</span></a></li>
+        <li><a href="https://mapa.targeo.pl/oberza-swojskie-jadlo-marsz-jozefa-pilsudskiego-23-33-380-krynica-zdroj~21109889/restauracja/adres" target="_blank" rel="noopener"><span>Targeo</span><span>stary telefon stacjonarny</span></a></li>
+      </ul>
+    </div>
+    <div class="pokaz" style="--i:1">
+      <div class="kol-glowa"><p class="et">Dane</p><h3>Kontakt</h3></div>
+      <ul class="wpisy">
+        <li><div class="wiersz"><span>Adres</span><span>ul. Marszałka J. Piłsudskiego 23, 33-380 Krynica-Zdrój</span></div></li>
+        <li><div class="wiersz"><span>Telefon</span><span>505 176 315</span></div></li>
+        <li><div class="wiersz"><span>E-mail</span><span>oberzaswojskiejadlo@gmail.com</span></div></li>
+        <li><div class="wiersz"><span>Godziny</span><span>codziennie 12:00–22:00</span></div></li>
+        <li><div class="wiersz"><span>Usługi</span><span>na miejscu, na wynos, dostawa</span></div></li>
+      </ul>
+      <p class="maly" style="margin-top:16px">W starych katalogach występuje też numer 18 471 60 84. Godziny z wizytówki Localo, w święta bywają inne.</p>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>Zdjęcia i karta z wizytówki Google</h2>
-    <p class="note" style="margin-bottom:16px">Potrawy, wnętrze i strony karty dań, ładowane bezpośrednio z serwerów Google (galeria profilu). Kliknięcie otwiera pełny rozmiar. Nie są zapisane w repozytorium.</p>
-    <div class="galeria" id="galeria"></div>
+<section class="sekcja glebsza" style="padding-bottom:calc(var(--sek) - 20px)">
+  <div class="wrap galeria-glowa pokaz">
+    <div style="display:grid;gap:16px">
+      <p class="et">Galeria</p>
+      <h2 class="h-l">Zdjęcia z wizytówki Google</h2>
+    </div>
+    <p class="maly" style="max-width:44ch">Potrawy, wnętrze i strony karty. Ładowane bezpośrednio z serwerów Google, nie zapisane w repozytorium. Kliknięcie otwiera pełny rozmiar.</p>
   </div>
+  <div class="tasma" id="galeria" tabindex="0" role="region" aria-label="Zdjęcia z wizytówki Google"></div>
 </section>
 
-<section class="lniana">
-  <div class="wrap">
-    <h2>Najnowsze publikacje</h2>
-    <div class="grid g2">
-      <div>
-        <h3 style="margin-bottom:10px">Facebook</h3>
-        <ul class="czysta">
-          <li><a href="https://www.facebook.com/photo/?fbid=1768790831916684" target="_blank" rel="noopener">Karta dań: zakąski i zupy</a><span>1.11.2026</span></li>
-          <li><a href="https://www.facebook.com/photo/?fbid=1768791021916665" target="_blank" rel="noopener">Karta dań: dania główne (1)</a><span>1.11.2026</span></li>
-          <li><a href="https://www.facebook.com/photo/?fbid=1768791271916640" target="_blank" rel="noopener">Karta dań: dania główne (2)</a><span>1.11.2026</span></li>
-          <li><a href="https://www.facebook.com/photo/?fbid=1768791508583283" target="_blank" rel="noopener">Karta dań: pierogi</a><span>1.11.2026</span></li>
-          <li><a href="https://www.facebook.com/photo/?fbid=1768791708583263" target="_blank" rel="noopener">Karta dań: burgery</a><span>1.11.2026</span></li>
-          <li><a href="https://www.facebook.com/photo/?fbid=1768791795249921" target="_blank" rel="noopener">Karta dań: pizza</a><span>1.11.2026</span></li>
-          <li><a href="https://www.facebook.com/photo/?fbid=1768792135249887" target="_blank" rel="noopener">Karta dań: dla dzieci i desery</a><span>1.11.2026</span></li>
-          <li><a href="https://www.facebook.com/photo/?fbid=1768792291916538" target="_blank" rel="noopener">Karta dań: dodatki</a><span>1.11.2026</span></li>
-          <li><a href="https://www.facebook.com/photo/?fbid=1768790651916702" target="_blank" rel="noopener">Rondel Głodnego Chłopa</a><span>1.11.2026</span></li>
-          <li><a href="https://www.facebook.com/oberza.swojskie.jadlo" target="_blank" rel="noopener">Rolka „Wiosna zawitała do Krynicy-Zdroju”</a><span>24.04.2026</span></li>
-        </ul>
-      </div>
-      <div>
-        <h3 style="margin-bottom:10px">Instagram</h3>
-        <ul class="czysta">
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DXguBFlEZag/" target="_blank" rel="noopener">Rolka</a><span>24.04.2026</span></li>
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DXXOQT1gtOp/" target="_blank" rel="noopener">Rolka</a><span>20.04.2026</span></li>
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/p/DWrjm5mjaNp/" target="_blank" rel="noopener">Grafika wielkanocna</a><span>3.04.2026</span></li>
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DUqajaQgVHZ/" target="_blank" rel="noopener">Rolka</a><span>12.02.2026</span></li>
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DUi7RImDVd2/" target="_blank" rel="noopener">Rolka</a><span>9.02.2026</span></li>
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DUdU9GdD8zA/" target="_blank" rel="noopener">Rolka</a><span>7.02.2026</span></li>
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DTxUvvpD44Y/" target="_blank" rel="noopener">Rolka</a><span>21.01.2026</span></li>
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DTvx0r5AJbK/" target="_blank" rel="noopener">Rolka</a><span>20.01.2026</span></li>
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DSn44BGgary/" target="_blank" rel="noopener">Rolka</a><span>23.12.2025</span></li>
-          <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/p/DSIHtqqjcsN/" target="_blank" rel="noopener">Post</a><span>11.12.2025</span></li>
-        </ul>
-        <p class="note" style="margin-top:12px">Od końca kwietnia 2026 na Instagramie nie widać nowych publikacji. Treści rolek nie oglądano (wymaga logowania), stąd brak opisów.</p>
-      </div>
+<section class="sekcja">
+  <div class="wrap dwa">
+    <div class="pokaz">
+      <div class="kol-glowa"><p class="et">Facebook</p><h3>Ostatnie publikacje</h3></div>
+      <ul class="wpisy">
+        <li><a href="https://www.facebook.com/photo/?fbid=1768790831916684" target="_blank" rel="noopener"><span>Karta: zakąski i zupy</span><span>1.11.2026</span></a></li>
+        <li><a href="https://www.facebook.com/photo/?fbid=1768791021916665" target="_blank" rel="noopener"><span>Karta: dania główne (1)</span><span>1.11.2026</span></a></li>
+        <li><a href="https://www.facebook.com/photo/?fbid=1768791271916640" target="_blank" rel="noopener"><span>Karta: dania główne (2)</span><span>1.11.2026</span></a></li>
+        <li><a href="https://www.facebook.com/photo/?fbid=1768791508583283" target="_blank" rel="noopener"><span>Karta: pierogi</span><span>1.11.2026</span></a></li>
+        <li><a href="https://www.facebook.com/photo/?fbid=1768791708583263" target="_blank" rel="noopener"><span>Karta: burgery</span><span>1.11.2026</span></a></li>
+        <li><a href="https://www.facebook.com/photo/?fbid=1768791795249921" target="_blank" rel="noopener"><span>Karta: pizza</span><span>1.11.2026</span></a></li>
+        <li><a href="https://www.facebook.com/photo/?fbid=1768792135249887" target="_blank" rel="noopener"><span>Karta: dla dzieci i desery</span><span>1.11.2026</span></a></li>
+        <li><a href="https://www.facebook.com/photo/?fbid=1768792291916538" target="_blank" rel="noopener"><span>Karta: dodatki</span><span>1.11.2026</span></a></li>
+        <li><a href="https://www.facebook.com/photo/?fbid=1768790651916702" target="_blank" rel="noopener"><span>Rondel Głodnego Chłopa</span><span>1.11.2026</span></a></li>
+        <li><a href="https://www.facebook.com/oberza.swojskie.jadlo" target="_blank" rel="noopener"><span>Rolka „Wiosna zawitała do Krynicy-Zdroju”</span><span>24.04.2026</span></a></li>
+      </ul>
+    </div>
+    <div class="pokaz" style="--i:1">
+      <div class="kol-glowa"><p class="et">Instagram</p><h3>Ostatnie publikacje</h3></div>
+      <ul class="wpisy">
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DXguBFlEZag/" target="_blank" rel="noopener"><span>Rolka</span><span>24.04.2026</span></a></li>
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DXXOQT1gtOp/" target="_blank" rel="noopener"><span>Rolka</span><span>20.04.2026</span></a></li>
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/p/DWrjm5mjaNp/" target="_blank" rel="noopener"><span>Grafika wielkanocna</span><span>3.04.2026</span></a></li>
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DUqajaQgVHZ/" target="_blank" rel="noopener"><span>Rolka</span><span>12.02.2026</span></a></li>
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DUi7RImDVd2/" target="_blank" rel="noopener"><span>Rolka</span><span>9.02.2026</span></a></li>
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DUdU9GdD8zA/" target="_blank" rel="noopener"><span>Rolka</span><span>7.02.2026</span></a></li>
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DTxUvvpD44Y/" target="_blank" rel="noopener"><span>Rolka</span><span>21.01.2026</span></a></li>
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DTvx0r5AJbK/" target="_blank" rel="noopener"><span>Rolka</span><span>20.01.2026</span></a></li>
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/reel/DSn44BGgary/" target="_blank" rel="noopener"><span>Rolka</span><span>23.12.2025</span></a></li>
+        <li><a href="https://www.instagram.com/oberza_swojskie_jadlo/p/DSIHtqqjcsN/" target="_blank" rel="noopener"><span>Post</span><span>11.12.2025</span></a></li>
+      </ul>
+      <p class="maly" style="margin-top:16px">Treści rolek nie oglądano (wymaga logowania), stąd brak opisów.</p>
     </div>
   </div>
 </section>
 
-<section>
+<section class="sekcja glebsza opinie">
   <div class="wrap">
-    <h2>Co mówią opinie</h2>
-    <div class="grid g2">
-      <div class="card">
-        <h3>Najczęściej chwalone</h3>
-        <ul class="punkty">
-          <li>Golonka, kwaśnica z żeberkiem, placki ziemniaczane z gulaszem, polędwiczki w płatkach kukurydzianych.</li>
-          <li>Duże porcje i ceny oceniane jako uczciwe.</li>
-          <li>Obsługa: uprzejmi kelnerzy z poczuciem humoru, chwaleni z imienia.</li>
-          <li>Szybkie podanie, zwykle 15–20 minut.</li>
-          <li>Nastrojowe wnętrze z kominkiem.</li>
-        </ul>
-        <p style="margin-top:14px"><em>„golonka rozpływa się w ustach”</em> <span class="note">— opinia z Google</span></p>
+    <div class="g12">
+      <div class="cytat pokaz">
+        <p class="et">Co mówią opinie</p>
+        <blockquote>„Golonka rozpływa się w ustach”</blockquote>
+        <cite>— z opinii w Google</cite>
       </div>
-      <div class="card">
-        <h3>Uwagi krytyczne</h3>
-        <ul class="punkty">
-          <li>Pojedyncze głosy o odgrzewanych dodatkach (kopytka).</li>
-          <li>Starsze opinie (2019–2021): słabsza pizza i długie oczekiwanie w sezonie.</li>
-          <li>Tripadvisor: brak karty po angielsku.</li>
-        </ul>
-        <p class="note" style="margin-top:14px">Podsumowanie własnymi słowami na podstawie opinii z Google (przez Localo), Tripadvisora i katalogów. Do pełnej analizy potrzebny eksport opinii z profilu firmy w Google.</p>
+      <div class="ocena pokaz" style="--i:1">
+        <b>4,5</b>
+        <span class="maly">4 589 opinii w Google</span>
       </div>
     </div>
+    <div class="g12 trojka">
+      <div class="pokaz" style="--i:0"><h3>Najczęściej chwalone</h3><p>Golonka, kwaśnica z żeberkiem, placki z gulaszem, polędwiczki w płatkach kukurydzianych. Duże porcje i uczciwe ceny.</p></div>
+      <div class="pokaz" style="--i:1"><h3>Obsługa i klimat</h3><p>Uprzejmi kelnerzy z poczuciem humoru, chwaleni z imienia. Dania zwykle w 15–20 minut. Nastrojowe wnętrze z kominkiem.</p></div>
+      <div class="pokaz" style="--i:2"><h3>Uwagi krytyczne</h3><p>Pojedyncze głosy o odgrzewanych kopytkach. W starszych opiniach (2019–2021) słabsza pizza i długie oczekiwanie. Na Tripadvisorze brak karty po angielsku.</p></div>
+    </div>
+    <p class="maly pokaz" style="margin-top:40px;max-width:70ch">Podsumowanie własnymi słowami na podstawie opinii z Google (przez Localo), Tripadvisora i katalogów. Do pełnej analizy potrzebny eksport opinii z profilu firmy w Google.</p>
   </div>
 </section>
+
 </main>
 
-<div class="haft"></div>
-<footer class="wrap">Opracowanie robocze na podstawie publicznych źródeł, stan na 17.11.2026. Zdjęcia i znaki należą do właściciela karczmy oraz autorów opinii.</footer>
+<div class="haft szyj" aria-hidden="true"></div>
+<footer class="stopka">
+  <div class="wrap">
+    <div class="gora">
+      <div><h2>Research</h2><ul><li><a href="index.html">Start</a></li><li><a href="branding.html">Księga znaku</a></li><li><a href="data/menu.md">Karta dań (dane)</a></li></ul></div>
+      <div><h2>Prototyp</h2><ul><li><a href="prototyp/index.html">Strona główna</a></li><li><a href="prototyp/karta.html">Karta</a></li><li><a href="prototyp/dowoz.html">Dowóz</a></li></ul></div>
+      <div><h2>Repozytorium</h2><ul><li><a href="https://github.com/myjakfilip7-jpg/karczma-oberza" target="_blank" rel="noopener">GitHub</a></li></ul></div>
+    </div>
+    <div class="nota maly"><span>Opracowanie robocze na podstawie publicznych źródeł. Zdjęcia i znaki należą do właściciela karczmy oraz autorów opinii.</span></div>
+  </div>
+  <div class="olbrzym" aria-hidden="true">OBER<i class="z">Z</i>A</div>
+</footer>
 
+<script src="prototyp/strona.js?v=5"></script>
 <script>
 const zdjecia = [
   "p/AF1QipOSeys_npF8Xah7IwXnAehq6G_f6IDwejX0O6Ee",
+  "DvEfEYEnMaFjNR80USnoaYkQ0IC77WeWu5UMaJc1zP1Ab2JbsyghBpxNZf3Wg7Ee8x7iE1plhD074zsDxA",
   "p/AF1QipNoap9a81pJ_YAtxOZfeL4Tcv0ag-Ii3Z2Izvqs",
   "p/AF1QipNWTpvurcGIDxCuzmfPUa67HhGbkCvC5QpPA7c9",
-  "DvEfEYEnMaFjNR80USnoaYkQ0IC77WeWu5UMaJc1zP1Ab2JbsyghBpxNZf3Wg7Ee8x7iE1plhD074zsDxA",
+  "Mr0HQ7Bultxn5wUZh1g30zfcVMkGtJTIrLKTRjTs95meieqEaQiz3XyR6kpFG92RQmITJpL-OrYUATPihQ",
+  "kW-tjC2bmHlWuEyp4dfy6Sqc_hebBILbNXSdo7TzTmK62GlUMNDMIkmInXxBeQCiMAhHa32xYh4dE7Favw",
   "ELNzC0flGYKLLWbukStBnU0LsbMxrG3sYhkN2w5z67yBVXJoFzd9TUNhleqfnvEoI3Tjin4JUFnLi7uFow",
   "gBX9lUi8O8PSqatiLzU1qHlCU_dO8pIsthTo31bZcnAF2rXu2rdbLOdpus96i8vPoPTHnJuNMqp0wCbuSw",
   "1TdweZUsRl9VJzft-q5Pbd1medJ2potonKzGnuZcd-NB4vR0tGmGTjw4YuBfXhRwPv8sh3Ci7f1Ru34Jmg",
@@ -203,25 +226,25 @@ const zdjecia = [
   "Whzbzl209nh-H4lVUp6cLB-T4gXevKBdUS4E_qStIgMJjwkZkpypeoGOwCbKyqsf5gsnQt4aZtZIurIa0w",
   "LxxgzeDiZb5R36j0Xnx2lXT7jI1oZ3nhvZuRFbIIgOREPdhgcui8j_3krO9-SWE5Xhe1xL1uzNc-CHpfCQ",
   "EgKZH4UCIgrGsyRi-J-7N8cq9fugDW_-dAb4qKN3ygqwldW6rh1mn-egf5aHri_yO84WT7l52FnaGzKocQ",
-  "jwxVLlWFWl4o3JU88lRCxCJrKOrV9DLc0zhl_AQOUXsiQQ-hF0H6vG17TDb7iUU_mUoT_JsS5tQzZhxJSA",
-  "Mr0HQ7Bultxn5wUZh1g30zfcVMkGtJTIrLKTRjTs95meieqEaQiz3XyR6kpFG92RQmITJpL-OrYUATPihQ",
-  "kW-tjC2bmHlWuEyp4dfy6Sqc_hebBILbNXSdo7TzTmK62GlUMNDMIkmInXxBeQCiMAhHa32xYh4dE7Favw"
+  "jwxVLlWFWl4o3JU88lRCxCJrKOrV9DLc0zhl_AQOUXsiQQ-hF0H6vG17TDb7iUU_mUoT_JsS5tQzZhxJSA"
 ];
 const galeria = document.getElementById("galeria");
 zdjecia.forEach((id, i) => {
   const baza = "https://lh3.googleusercontent.com/" + id;
+  const fig = document.createElement("figure");
   const a = document.createElement("a");
   a.href = baza + "=w1600";
   a.target = "_blank";
   a.rel = "noopener";
   const img = new Image();
-  img.src = baza + "=w640";
+  img.src = baza + "=h900";
   img.alt = "Zdjęcie z wizytówki Google Karczmy Oberża nr " + (i + 1);
   img.loading = "lazy";
   img.referrerPolicy = "no-referrer";
-  img.onerror = () => a.remove();
+  img.onerror = () => fig.remove();
   a.append(img);
-  galeria.append(a);
+  fig.append(a);
+  galeria.append(fig);
 });
 </script>
 </body>
