@@ -9,15 +9,6 @@ export const DEFAULTS = {
     // wyjątki: [{ data: "2026-12-24", zamkniete: true, od, do, notatka }]
     wyjatki: [],
   },
-  zamowienia: {
-    online: true, // przyjmowanie zamówień przez stronę
-    wstrzymane: false, // szybkie wstrzymanie z panelu, gdy kuchnia nie wyrabia
-    ostatnieMinPrzedZamknieciem: 30,
-    czasPrzygotowaniaMin: 45, // najwcześniejsza godzina odbioru / dostawy „na godzinę”
-    czasDostawyMin: 60, // orientacyjny czas pokazywany klientowi
-    minimumZl: 0,
-  },
-  dowoz: { aktywny: true, obszar: "Krynica-Zdrój", obszar_en: "Krynica-Zdrój", oplataZl: 0 },
   rezerwacje: {
     online: true,
     slotMin: 30,
@@ -70,22 +61,6 @@ export function cleanSetting(name, input) {
       wyjatki.sort((a, b) => a.data.localeCompare(b.data));
       return { dni, wyjatki };
     }
-    case "zamowienia":
-      return {
-        online: bool(input.online, d.online),
-        wstrzymane: bool(input.wstrzymane, d.wstrzymane),
-        ostatnieMinPrzedZamknieciem: intIn(input.ostatnieMinPrzedZamknieciem, 0, 240, d.ostatnieMinPrzedZamknieciem),
-        czasPrzygotowaniaMin: intIn(input.czasPrzygotowaniaMin, 10, 240, d.czasPrzygotowaniaMin),
-        czasDostawyMin: intIn(input.czasDostawyMin, 10, 240, d.czasDostawyMin),
-        minimumZl: intIn(input.minimumZl, 0, 1000, d.minimumZl),
-      };
-    case "dowoz":
-      return {
-        aktywny: bool(input.aktywny, d.aktywny),
-        obszar: txt(input.obszar, 120) || d.obszar,
-        obszar_en: txt(input.obszar_en, 120) || txt(input.obszar, 120) || d.obszar_en,
-        oplataZl: intIn(input.oplataZl, 0, 200, d.oplataZl),
-      };
     case "rezerwacje":
       return {
         online: bool(input.online, d.online),

@@ -1,4 +1,4 @@
-// Czas lokalny Krynicy (Europe/Warsaw) i logika godzin: otwarte teraz, terminy rezerwacji, okno zamówień.
+// Czas lokalny Krynicy (Europe/Warsaw) i logika godzin: otwarte teraz, terminy rezerwacji.
 // Dni tygodnia liczone od poniedziałku: 0 = poniedziałek … 6 = niedziela.
 
 const TZ = "Europe/Warsaw";
@@ -75,18 +75,4 @@ export function reservationSlots(hours, cfg, dateStr, now) {
   const out = [];
   for (let t = h.open; t <= last; t += cfg.slotMin) if (t >= earliest) out.push(toHHMM(t));
   return out;
-}
-
-/** Czy można teraz złożyć zamówienie i na jakie godziny (odbiór / dowóz „na godzinę”). */
-export function orderWindow(hours, cfg, now) {
-  const n = local(now);
-  const h = dayHours(hours, n.date);
-  if (h.closed) return { mozna: false, powod: "zamkniete_dzis", godziny: [] };
-  if (n.minutes < h.open) return { mozna: false, powod: "przed_otwarciem", od: toHHMM(h.open), godziny: [] };
-  const last = h.close - cfg.ostatnieMinPrzedZamknieciem;
-  if (n.minutes >= last) return { mozna: false, powod: "po_godzinach", godziny: [] };
-  const godziny = [];
-  const start = Math.ceil((n.minutes + cfg.czasPrzygotowaniaMin) / 15) * 15;
-  for (let t = start; t <= h.close - 15; t += 15) godziny.push(toHHMM(t));
-  return { mozna: true, do: toHHMM(last), godziny };
 }

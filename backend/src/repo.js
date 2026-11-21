@@ -2,7 +2,6 @@
 import { randomBytes } from "node:crypto";
 import { DEFAULTS } from "./settings.js";
 
-export const ORDER_STATUSES = ["nowe", "przyjete", "w_drodze", "gotowe", "zrealizowane", "odrzucone"];
 export const RES_STATUSES = ["nowa", "potwierdzona", "odrzucona", "anulowana"];
 const ACTIVE_RES = ["nowa", "potwierdzona"];
 
@@ -43,13 +42,6 @@ const resFromRow = (r) => r && ({
   data: r.date, godzina: r.time, osoby: Number(r.people), imie: r.name, telefon: r.phone,
   email: r.email || "", uwagi: r.note || "", rondel: Boolean(Number(r.rondel)), jezyk: r.lang,
   status: r.status, notatka: r.staff_note || "",
-});
-
-const orderFromRow = (r) => r && ({
-  id: Number(r.id), token: r.token, utworzono: r.created_at, zmieniono: r.updated_at,
-  typ: r.type, imie: r.name, telefon: r.phone, adres: r.address || "", uwagi: r.note || "",
-  godzina: r.desired_time || "", pozycje: JSON.parse(r.items), suma: Number(r.total), jezyk: r.lang,
-  status: r.status, eta: r.eta_minutes == null ? null : Number(r.eta_minutes), notatka: r.staff_note || "",
 });
 
 export function createRepo(db, { now = () => new Date() } = {}) {
@@ -207,67 +199,28 @@ export function createRepo(db, { now = () => new Date() } = {}) {
     return r.changes ? reservation(id) : null;
   }
 
-  // ── zamówienia ──
-  async function createOrder(d) {
-    const t = token();
-    const r = await db.run(
-      "INSERT INTO orders (token, created_at, type, name, phone, address, note, desired_time, items, total, lang, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'nowe')",
-      [t, iso(), d.typ, d.imie, d.telefon, d.adres || null, d.uwagi || null, d.godzina || null, JSON.stringify(d.pozycje), d.suma, d.jezyk],
-    );
-    return order(r.id);
-  }
-
-  const order = async (id) => orderFromRow(await db.get("SELECT * FROM orders WHERE id = ?", [id]));
-  const orderByToken = async (t) => orderFromRow(await db.get("SELECT * FROM orders WHERE token = ?", [t]));
-
-  async function orders({ od, przed, aktywne = false } = {}) {
-    const where = [];
-    const p = [];
-    if (od) { where.push("created_at >= ?"); p.push(od); }
-    if (przed) { where.push("created_at < ?"); p.push(przed); }
-    if (aktywne) where.push("status IN ('nowe', 'przyjete', 'w_drodze', 'gotowe')");
-    const rows = await db.all(`SELECT * FROM orders ${where.length ? "WHERE " + where.join(" AND ") : ""} ORDER BY id DESC LIMIT 300`, p);
-    return rows.map(orderFromRow);
-  }
-
-  async function updateOrder(id, { status, eta, notatka }) {
-    const sets = ["updated_at = ?"];
-    const p = [iso()];
-    if (status) { sets.push("status = ?"); p.push(status); }
-    if (eta !== undefined) { sets.push("eta_minutes = ?"); p.push(eta); }
-    if (notatka !== undefined) { sets.push("staff_note = ?"); p.push(notatka); }
-    p.push(id);
-    const r = await db.run(`UPDATE orders SET ${sets.join(", ")} WHERE id = ?`, p);
-    return r.changes ? order(id) : null;
-  }
-
   // ── podsumowanie dla panelu ──
-  async function summary({ dzisData, dzisOdIso }) {
-    const o = await db.get("SELECT COUNT(*) AS n, MAX(id) AS m FROM orders WHERE status = 'nowe'");
-    const oAll = await db.get("SELECT MAX(id) AS m FROM orders");
+  async function summary({ dzisData }) {
     const r = await db.get("SELECT COUNT(*) AS n FROM reservations WHERE status = 'nowa'");
     const rAll = await db.get("SELECT MAX(id) AS m FROM reservations");
-    const today = await db.get("SELECT COUNT(*) AS n, COALESCE(SUM(total), 0) AS s FROM orders WHERE created_at >= ? AND status <> 'odrzucone'", [dzisOdIso]);
     const rToday = await db.get(`SELECT COUNT(*) AS n, COALESCE(SUM(people), 0) AS p FROM reservations WHERE date = ? AND status IN ('nowa', 'potwierdzona')`, [dzisData]);
     return {
-      zamowienia: { nowe: Number(o.n), ostatnieId: Number(oAll.m || 0) },
       rezerwacje: { nowe: Number(r.n), ostatnieId: Number(rAll.m || 0) },
-      dzis: { zamowien: Number(today.n), obrot: Number(today.s), rezerwacji: Number(rToday.n), gosci: Number(rToday.p) },
+      dzis: { rezerwacji: Number(rToday.n), gosci: Number(rToday.p) },
     };
   }
 
   /** RODO: po N dniach usuwa dane osobowe, zostawia kwoty i daty do statystyk. */
   async function purgePersonalData(days) {
-    if (!days) return { zamowienia: 0, rezerwacje: 0 };
+    if (!days) return { rezerwacje: 0 };
     const cutoff = new Date(now().getTime() - days * 864e5).toISOString();
-    const a = await db.run("UPDATE orders SET name = '—', phone = '—', address = NULL, note = NULL, staff_note = NULL WHERE created_at < ? AND phone <> '—'", [cutoff]);
     const b = await db.run("UPDATE reservations SET name = '—', phone = '—', email = NULL, note = NULL, staff_note = NULL WHERE created_at < ? AND phone <> '—'", [cutoff]);
-    return { zamowienia: a.changes, rezerwacje: b.changes };
+    return { rezerwacje: b.changes };
   }
 
   return {
     getSettings, setSetting, menu, item, menuIsEmpty, importMenu, updateItem, createItem, deleteItem,
     reservedPeople, createReservation, reservationByToken, reservation, reservations, updateReservation,
-    createOrder, order, orderByToken, orders, updateOrder, summary, purgePersonalData, ACTIVE_RES,
+    summary, purgePersonalData, ACTIVE_RES,
   };
 }

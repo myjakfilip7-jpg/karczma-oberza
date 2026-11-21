@@ -1,8 +1,8 @@
 // Aplikacja HTTP: publiczne API strony, API panelu, pliki strony i panelu.
 import express from "express";
 import fs from "node:fs";
-import { createRepo, ORDER_STATUSES, RES_STATUSES, zl } from "./repo.js";
-import { openStatus, reservationSlots, orderWindow, local, addDays, dayHours } from "./time.js";
+import { createRepo, RES_STATUSES, zl } from "./repo.js";
+import { openStatus, reservationSlots, local, addDays, dayHours } from "./time.js";
 import { collector, Invalid, lang as langOf } from "./validate.js";
 import { msg } from "./messages.js";
 import { createAuth, readCookie, cookieHeader, COOKIE } from "./auth.js";
@@ -10,7 +10,7 @@ import { limiter, loginGuard } from "./ratelimit.js";
 import { cleanSetting, SettingError } from "./settings.js";
 
 const TOKEN_RE = /^[A-Za-z0-9_-]{20,40}$/;
-const EDITABLE_SETTINGS = ["godziny", "zamowienia", "dowoz", "rezerwacje", "komunikat"];
+const EDITABLE_SETTINGS = ["godziny", "rezerwacje", "komunikat"];
 const PHONE = "+48505176315";
 
 class Fail extends Error {
@@ -23,7 +23,6 @@ export function createApp({ db, config, now = () => new Date(), notify = null, l
   const guard = loginGuard();
   const limits = {
     rezerwacje: limiter({ windowMs: 15 * 60e3, max: 6 }),
-    zamowienia: limiter({ windowMs: 15 * 60e3, max: 6 }),
     api: limiter({ windowMs: 60e3, max: 240 }),
   };
   const ms = () => now().getTime();
@@ -68,26 +67,13 @@ export function createApp({ db, config, now = () => new Date(), notify = null, l
     const s = await settings();
     const n = now();
     const st = openStatus(s.godziny, n);
-    const ow = orderWindow(s.godziny, s.zamowienia, n);
     const today = local(n).date;
     const k = s.komunikat;
-    const z = s.zamowienia;
     res.json({
       ...st,
       telefon: PHONE,
       komunikat: k.tekst && (!k.do || k.do >= today) ? { tekst: k.tekst, tekst_en: k.tekst_en || k.tekst } : null,
       rezerwacje: { online: s.rezerwacje.online, maksOsob: s.rezerwacje.maksOsob, dniNaprzod: s.rezerwacje.dniNaprzod },
-      zamowienia: {
-        online: z.online,
-        mozna: z.online && !z.wstrzymane && ow.mozna,
-        powod: !z.online ? "wylaczone" : z.wstrzymane ? "wstrzymane" : ow.powod || null,
-        od: ow.od || null,
-        do: ow.do || null,
-        godziny: ow.godziny,
-        czasDostawyMin: z.czasDostawyMin,
-        minimumZl: z.minimumZl,
-        dowoz: { ...s.dowoz },
-      },
     });
   });
 
@@ -173,80 +159,6 @@ export function createApp({ db, config, now = () => new Date(), notify = null, l
     res.json({ status: r.status, data: r.data, godzina: r.godzina, osoby: r.osoby, rondel: r.rondel });
   });
 
-  // ── zamówienia ──
-  app.post("/api/zamowienia", async (req, res) => {
-    const b = req.body || {};
-    const l = langOf(b.jezyk);
-    if (!limits.zamowienia.take(req.ip, ms())) throw new Fail(429, "za_duzo_prob");
-    const s = await settings();
-    if (!s.zamowienia.online) throw new Fail(403, "zamowienia_wylaczone");
-    if (s.zamowienia.wstrzymane) throw new Fail(409, "zamowienia_wstrzymane");
-    const ow = orderWindow(s.godziny, s.zamowienia, now());
-    if (!ow.mozna) throw new Fail(409, "poza_godzinami");
-    if (b.firma) return res.status(201).json({ token: null, status: "nowe" });
-
-    const v = collector();
-    const typ = b.typ === "dowoz" || b.typ === "wynos" ? b.typ : (v.add("typ", "typ"), null);
-    if (typ === "dowoz" && !s.dowoz.aktywny) throw new Fail(409, "dowoz_wylaczony");
-    const imie = v.text(b.imie, "imie", { min: 2, max: 80, required: true });
-    const telefon = v.phone(b.telefon);
-    const adres = typ === "dowoz" ? v.text(b.adres, "adres", { min: 5, max: 200, required: true }) : "";
-    if (typ === "dowoz" && !adres) v.add("adres", "adres");
-    const uwagi = v.longText(b.uwagi, "uwagi", 500);
-    const godzina = !b.godzina || b.godzina === "asap" ? "" : String(b.godzina);
-    if (godzina && !ow.godziny.includes(godzina)) v.add("godzina", "termin_niedostepny");
-    const lista = Array.isArray(b.pozycje) ? b.pozycje : [];
-    if (!lista.length) v.add("pozycje", "pusty_koszyk");
-    if (lista.length > 40) v.add("pozycje", "za_duzo_pozycji");
-    v.throwIfAny();
-
-    // Ceny zawsze z bazy — nigdy z przeglądarki.
-    const merged = new Map();
-    for (const x of lista) {
-      const id = typeof x?.id === "string" ? x.id : "";
-      const wariant = x?.wariant == null ? 0 : x.wariant;
-      const ilosc = x?.ilosc;
-      if (!id || !Number.isInteger(wariant) || wariant < 0 || !Number.isInteger(ilosc) || ilosc < 1 || ilosc > 20) {
-        throw new Invalid([{ pole: "pozycje", kod: "ilosc" }]);
-      }
-      const key = `${id}#${wariant}`;
-      merged.set(key, { id, wariant, ilosc: (merged.get(key)?.ilosc || 0) + ilosc });
-    }
-    const pozycje = [];
-    for (const x of merged.values()) {
-      const it = await repo.item(x.id);
-      const w = it?.ceny[x.wariant];
-      if (!it || it.ukryte || !it.dostepne || !w || w.cena == null) throw new Invalid([{ pole: "pozycje", kod: "pozycja_niedostepna" }], 409);
-      if (x.ilosc > 50) throw new Invalid([{ pole: "pozycje", kod: "ilosc" }]);
-      pozycje.push({
-        id: it.id, nazwa: it.nazwa, nazwa_en: it.nazwa_en || it.nazwa,
-        wariant: w.etykieta || "", wariant_en: w.etykieta_en || w.etykieta || "",
-        ilosc: x.ilosc, cena: w.cena, suma: w.cena * x.ilosc,
-      });
-    }
-    const wartosc = pozycje.reduce((a, p) => a + p.suma, 0);
-    if (typ === "dowoz" && s.zamowienia.minimumZl > 0 && wartosc < s.zamowienia.minimumZl * 100) {
-      throw new Invalid([{ pole: "pozycje", kod: "minimum" }], 409);
-    }
-    if (typ === "dowoz" && s.dowoz.oplataZl > 0) {
-      pozycje.push({ id: "dowoz", nazwa: "Dowóz", nazwa_en: "Delivery", wariant: "", wariant_en: "", ilosc: 1, cena: s.dowoz.oplataZl * 100, suma: s.dowoz.oplataZl * 100 });
-    }
-    const suma = pozycje.reduce((a, p) => a + p.suma, 0);
-    const o = await repo.createOrder({ typ, imie, telefon, adres, uwagi, godzina, pozycje, suma, jezyk: l });
-    if (notify) later(() => notify.order(o));
-    res.status(201).json({ token: o.token, status: o.status, suma: o.suma, czasDostawyMin: s.zamowienia.czasDostawyMin });
-  });
-
-  app.get("/api/zamowienia/:token", async (req, res) => {
-    if (!TOKEN_RE.test(req.params.token)) throw new Fail(404, "zly_token");
-    const o = await repo.orderByToken(req.params.token);
-    if (!o) throw new Fail(404, "zly_token");
-    res.json({
-      status: o.status, typ: o.typ, suma: o.suma, eta: o.eta, godzina: o.godzina, utworzono: o.utworzono, zmieniono: o.zmieniono,
-      pozycje: o.pozycje.map((p) => ({ nazwa: p.nazwa, nazwa_en: p.nazwa_en, wariant: p.wariant, wariant_en: p.wariant_en, ilosc: p.ilosc, suma: p.suma })),
-    });
-  });
-
   // ── panel: logowanie ──
   const secure = (req) => config.production || req.secure;
 
@@ -271,42 +183,10 @@ export function createApp({ db, config, now = () => new Date(), notify = null, l
   });
 
   // ── panel: dane ──
-  const startOfLocalDay = (date = now()) => {
-    const n = local(date);
-    return new Date(date.getTime() - n.minutes * 60e3 - date.getUTCSeconds() * 1e3 - date.getUTCMilliseconds());
-  };
-  const startOfDate = (ds) => {
-    // Północ czasu polskiego dla podanej daty: szukamy przesunięcia strefy w samo południe tego dnia.
-    const noon = new Date(`${ds}T12:00:00Z`);
-    return startOfLocalDay(noon);
-  };
-
   app.get("/api/panel/sesja", (req, res) => res.json({ ok: true }));
 
   app.get("/api/panel/podsumowanie", async (req, res) => {
-    const n = now();
-    res.json(await repo.summary({ dzisData: local(n).date, dzisOdIso: startOfLocalDay(n).toISOString() }));
-  });
-
-  app.get("/api/panel/zamowienia", async (req, res) => {
-    const widok = req.query.widok || "aktywne";
-    if (widok === "aktywne") return res.json(await repo.orders({ aktywne: true }));
-    if (widok === "dzis") return res.json(await repo.orders({ od: startOfLocalDay().toISOString() }));
-    const v = collector();
-    const data = v.date(req.query.data);
-    v.throwIfAny();
-    res.json(await repo.orders({ od: startOfDate(data).toISOString(), przed: startOfDate(addDays(data, 1)).toISOString() }));
-  });
-
-  app.patch("/api/panel/zamowienia/:id", async (req, res) => {
-    const b = req.body || {};
-    const patch = {};
-    if (b.status !== undefined) { if (!ORDER_STATUSES.includes(b.status)) throw new Fail(400, "zle_dane"); patch.status = b.status; }
-    if (b.eta !== undefined) { if (b.eta !== null && !(Number.isInteger(b.eta) && b.eta >= 0 && b.eta <= 600)) throw new Fail(400, "zle_dane"); patch.eta = b.eta; }
-    if (b.notatka !== undefined) patch.notatka = String(b.notatka).slice(0, 500);
-    const o = await repo.updateOrder(Number(req.params.id), patch);
-    if (!o) throw new Fail(404, "nie_znaleziono");
-    res.json(o);
+    res.json(await repo.summary({ dzisData: local(now()).date }));
   });
 
   app.get("/api/panel/rezerwacje", async (req, res) => {

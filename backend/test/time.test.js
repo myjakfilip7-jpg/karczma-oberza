@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { local, weekdayOf, addDays, dayHours, openStatus, reservationSlots, orderWindow, isDate } from "../src/time.js";
+import { local, weekdayOf, addDays, dayHours, openStatus, reservationSlots, isDate } from "../src/time.js";
 import { DEFAULTS } from "../src/settings.js";
 
 const H = DEFAULTS.godziny;
@@ -50,12 +50,3 @@ test("terminy rezerwacji: co 30 min, ostatni godzinę przed zamknięciem, dziś 
   assert.deepEqual(reservationSlots(H, cfg, "2026-11-22", at("2026-11-23T13:00")), []); // przeszłość
 });
 
-test("okno zamówień: godziny odbioru i koniec przed zamknięciem", () => {
-  const cfg = DEFAULTS.zamowienia;
-  const w = orderWindow(H, cfg, at("2026-11-23T13:00"));
-  assert.equal(w.mozna, true);
-  assert.equal(w.godziny[0], "13:45");
-  assert.equal(w.godziny.at(-1), "21:45");
-  assert.equal(orderWindow(H, cfg, at("2026-11-23T21:30")).powod, "po_godzinach");
-  assert.equal(orderWindow(H, cfg, at("2026-11-23T11:00")).powod, "przed_otwarciem");
-});

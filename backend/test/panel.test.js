@@ -7,7 +7,7 @@ beforeEach(async () => { t = await startTestServer({ clock: makeClock("2026-11-2
 afterEach(async () => { await t.close(); });
 
 test("panel bez logowania nic nie zdradza", async () => {
-  for (const p of ["/api/panel/zamowienia", "/api/panel/rezerwacje", "/api/panel/menu", "/api/panel/ustawienia", "/api/panel/podsumowanie"]) {
+  for (const p of ["/api/panel/rezerwacje", "/api/panel/menu", "/api/panel/ustawienia", "/api/panel/podsumowanie"]) {
     const r = await t.call("GET", p);
     assert.equal(r.status, 401, p);
     assert.equal(r.body.blad, "brak_sesji");
@@ -40,30 +40,6 @@ test("bez PANEL_PASSWORD panel odmawia logowania", async () => {
     assert.equal(r.status, 503);
     assert.equal(r.body.blad, "brak_hasla");
   } finally { await u.close(); }
-});
-
-test("obsługa zamówienia: nowe → przyjęte z czasem → w drodze → zrealizowane", async () => {
-  const z = await t.call("POST", "/api/zamowienia", { typ: "dowoz", imie: "Anna", telefon: "600700800", adres: "ul. Zdrojowa 5", pozycje: [{ id: "golonka-pieczona", ilosc: 2 }] });
-  await t.login();
-  let s = await t.call("GET", "/api/panel/podsumowanie", undefined, { auth: true });
-  assert.deepEqual(s.body.zamowienia, { nowe: 1, ostatnieId: 1 });
-  assert.equal(s.body.dzis.obrot, 13800);
-  const lista = await t.call("GET", "/api/panel/zamowienia?widok=aktywne", undefined, { auth: true });
-  assert.equal(lista.body[0].telefon, "600700800");
-  const id = lista.body[0].id;
-  const p = await t.call("PATCH", `/api/panel/zamowienia/${id}`, { status: "przyjete", eta: 45 }, { auth: true });
-  assert.equal(p.body.status, "przyjete");
-  const g = await t.call("GET", `/api/zamowienia/${z.body.token}`);
-  assert.equal(g.body.status, "przyjete");
-  assert.equal(g.body.eta, 45);
-  await t.call("PATCH", `/api/panel/zamowienia/${id}`, { status: "w_drodze" }, { auth: true });
-  await t.call("PATCH", `/api/panel/zamowienia/${id}`, { status: "zrealizowane" }, { auth: true });
-  assert.equal((await t.call("GET", "/api/panel/zamowienia?widok=aktywne", undefined, { auth: true })).body.length, 0);
-  assert.equal((await t.call("GET", "/api/panel/zamowienia?widok=dzis", undefined, { auth: true })).body.length, 1);
-  assert.equal((await t.call("GET", "/api/panel/zamowienia?widok=historia&data=2026-11-23", undefined, { auth: true })).body.length, 1);
-  assert.equal((await t.call("GET", "/api/panel/zamowienia?widok=historia&data=2026-11-22", undefined, { auth: true })).body.length, 0);
-  assert.equal((await t.call("PATCH", `/api/panel/zamowienia/${id}`, { status: "zgubione" }, { auth: true })).status, 400);
-  assert.equal((await t.call("PATCH", "/api/panel/zamowienia/999", { status: "przyjete" }, { auth: true })).status, 404);
 });
 
 test("obsługa rezerwacji: potwierdzenie widać w podglądzie gościa", async () => {
@@ -112,18 +88,19 @@ test("ustawienia: zapis godzin z wyjątkiem i odrzucanie złych danych", async (
   dni[0] = { od: "22:00", do: "12:00", zamkniete: false };
   assert.equal((await t.call("PUT", "/api/panel/ustawienia/godziny", { dni, wyjatki: [] }, { auth: true })).status, 400);
   assert.equal((await t.call("PUT", "/api/panel/ustawienia/karta", { wydanie: "x" }, { auth: true })).status, 404);
-  const z = await t.call("PUT", "/api/panel/ustawienia/zamowienia", { online: true, wstrzymane: true, minimumZl: 9999 }, { auth: true });
-  assert.equal(z.body.wstrzymane, true);
-  assert.equal(z.body.minimumZl, 0); // wartość spoza zakresu wraca do domyślnej
-  assert.equal((await t.call("GET", "/api/status")).body.zamowienia.powod, "wstrzymane");
+  const r = await t.call("PUT", "/api/panel/ustawienia/rezerwacje", { online: true, maksOsob: 9999, limitOsobNaGodzine: 20 }, { auth: true });
+  assert.equal(r.body.maksOsob, 30); // wartość spoza zakresu wraca do domyślnej
+  assert.equal(r.body.limitOsobNaGodzine, 20);
+  assert.equal((await t.call("PUT", "/api/panel/ustawienia/zamowienia", { online: true }, { auth: true })).status, 404);
 });
 
-test("RODO: dane osobowe znikają po okresie przechowywania, kwoty zostają", async () => {
-  await t.call("POST", "/api/zamowienia", { typ: "wynos", imie: "Anna", telefon: "600700800", pozycje: [{ id: "golonka-pieczona", ilosc: 1 }] });
+test("RODO: dane osobowe znikają po okresie przechowywania, termin i liczba osób zostają", async () => {
+  await t.call("POST", "/api/rezerwacje", { imie: "Anna", telefon: "600700800", email: "anna@example.com", osoby: 3, data: "2026-11-24", godzina: "18:00" });
   t.clock.advance(181 * 864e5);
   const r = await t.repo.purgePersonalData(180);
-  assert.equal(r.zamowienia, 1);
-  const [o] = await t.repo.orders({});
-  assert.equal(o.telefon, "—");
-  assert.equal(o.suma, 6900);
+  assert.equal(r.rezerwacje, 1);
+  const [x] = await t.repo.reservations({});
+  assert.equal(x.telefon, "—");
+  assert.equal(x.email, "");
+  assert.equal(x.osoby, 3);
 });

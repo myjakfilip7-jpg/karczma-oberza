@@ -1,13 +1,12 @@
 // Panel właściciela Karczmy Oberża. Bez frameworków; cała treść wstawiana przez textContent (bez innerHTML).
 "use strict";
 
-const ORDER_LABEL = { nowe: "Nowe", przyjete: "Przyjęte", w_drodze: "W drodze", gotowe: "Gotowe do odbioru", zrealizowane: "Zrealizowane", odrzucone: "Odrzucone" };
 const RES_LABEL = { nowa: "Nowa", potwierdzona: "Potwierdzona", odrzucona: "Odrzucona", anulowana: "Anulowana" };
 const DNI = ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"];
 const POLL_MS = 15000;
 
 const app = document.getElementById("app");
-const state = { tab: "zamowienia", ordersView: "aktywne", ordersDate: "", resFrom: "", summary: null, seen: null, sound: false, fresh: new Set(), settings: null };
+const state = { tab: "rezerwacje", resFrom: "", summary: null, seen: null, sound: false, settings: null };
 
 // ── narzędzia ──
 function h(tag, props = {}, ...children) {
@@ -95,19 +94,18 @@ function showLogin() {
       btn.disabled = true;
       try { await api("POST", "/panel/login", { haslo: pass.value }); start(); } catch (x) { err.textContent = x.message; pass.select(); } finally { btn.disabled = false; }
     },
-  }, h("h1", { text: "Karczma Oberża" }), h("p", { text: "Panel obsługi: zamówienia, rezerwacje, karta i godziny." }), pass, btn, err);
+  }, h("h1", { text: "Karczma Oberża" }), h("p", { text: "Panel obsługi: rezerwacje, karta, godziny i komunikat na stronie." }), pass, btn, err);
   app.replaceChildren(h("div", { class: "login" }, form));
   pass.focus();
 }
 
 // ── szkielet ──
-const TABS = [["zamowienia", "Zamówienia"], ["rezerwacje", "Rezerwacje"], ["karta", "Karta"], ["godziny", "Godziny"], ["ustawienia", "Ustawienia"]];
-let main, badges, statusEl, pauseInput;
+const TABS = [["rezerwacje", "Rezerwacje"], ["karta", "Karta"], ["godziny", "Godziny"], ["ustawienia", "Ustawienia"]];
+let main, badges, statusEl;
 
 function shell() {
-  badges = { zamowienia: h("span", { class: "licznik", hidden: true }), rezerwacje: h("span", { class: "licznik", hidden: true }) };
+  badges = { rezerwacje: h("span", { class: "licznik", hidden: true }) };
   statusEl = h("span", { class: "stan", text: "…" });
-  pauseInput = h("input", { type: "checkbox", onchange: (e) => togglePause(e.target) });
   const sound = h("input", { type: "checkbox", onchange: (e) => { state.sound = e.target.checked; if (state.sound) beep(); } });
   const nav = h("nav", { class: "zakladki", "aria-label": "Sekcje panelu" }, TABS.map(([id, label]) =>
     h("button", { type: "button", "data-tab": id, "aria-current": state.tab === id ? "page" : undefined, onclick: () => go(id) }, label, badges[id] || null)));
@@ -117,7 +115,6 @@ function shell() {
       h("div", { class: "pas" },
         h("span", { class: "znak" }, "Oberża", h("small", { text: "panel" })),
         statusEl,
-        h("label", { class: "przelacznik alarm", title: "Strona przestaje przyjmować zamówienia, dopóki nie wyłączysz" }, pauseInput, "Wstrzymaj zamówienia"),
         h("label", { class: "przelacznik" }, sound, "Dźwięk"),
         h("button", { class: "przycisk-maly", type: "button", text: "Wyloguj", onclick: async () => { await api("POST", "/panel/logout").catch(() => {}); showLogin(); } })),
       nav),
@@ -132,7 +129,7 @@ function go(tab) {
 }
 
 function render() {
-  const views = { zamowienia: viewOrders, rezerwacje: viewReservations, karta: viewMenu, godziny: viewHours, ustawienia: viewSettings };
+  const views = { rezerwacje: viewReservations, karta: viewMenu, godziny: viewHours, ustawienia: viewSettings };
   main.replaceChildren(h("p", { class: "ladowanie", text: "Ładowanie…" }));
   views[state.tab]().catch((e) => { if (e.message !== "sesja") main.replaceChildren(h("div", { class: "pusto", text: e.message })); });
 }
@@ -147,107 +144,21 @@ async function poll(first = false) {
     const st = await fetch("/api/status").then((r) => r.json());
     statusEl.textContent = st.otwarte ? `Otwarte do ${st.zamkniecie}` : "Zamknięte";
     statusEl.classList.toggle("zamkniete", !st.otwarte);
-    badges.zamowienia.textContent = s.zamowienia.nowe;
-    badges.zamowienia.hidden = !s.zamowienia.nowe;
     badges.rezerwacje.textContent = s.rezerwacje.nowe;
     badges.rezerwacje.hidden = !s.rezerwacje.nowe;
-    const total = s.zamowienia.nowe + s.rezerwacje.nowe;
-    document.title = (total ? `(${total}) ` : "") + "Panel · Karczma Oberża";
+    document.title = (s.rezerwacje.nowe ? `(${s.rezerwacje.nowe}) ` : "") + "Panel · Karczma Oberża";
     const prev = state.seen;
-    state.seen = { z: s.zamowienia.ostatnieId, r: s.rezerwacje.ostatnieId };
+    state.seen = { r: s.rezerwacje.ostatnieId };
     state.summary = s;
-    if (!first && prev && (state.seen.z > prev.z || state.seen.r > prev.r)) {
+    if (!first && prev && state.seen.r > prev.r) {
       beep();
-      toast(state.seen.z > prev.z ? "Nowe zamówienie" : "Nowa rezerwacja");
-      if (state.tab === "zamowienia" && state.seen.z > prev.z) { for (let i = prev.z + 1; i <= state.seen.z; i++) state.fresh.add(i); render(); }
-      if (state.tab === "rezerwacje" && state.seen.r > prev.r) render();
-    } else if (!first && state.tab === "zamowienia" && state.ordersView !== "historia") {
-      // ciche odświeżenie, żeby statusy i czasy zgadzały się z innymi urządzeniami
-      viewOrders(true).catch(() => {});
+      toast("Nowa rezerwacja");
+      if (state.tab === "rezerwacje") render();
     }
   } catch { /* brak sieci — spróbuje przy kolejnym cyklu */ }
 }
 
-async function loadSettings() { state.settings = await api("GET", "/panel/ustawienia"); pauseInput.checked = state.settings.zamowienia.wstrzymane; return state.settings; }
-
-async function togglePause(input) {
-  const s = state.settings || (await loadSettings());
-  await act(null, async () => {
-    s.zamowienia = await api("PUT", "/panel/ustawienia/zamowienia", { ...s.zamowienia, wstrzymane: input.checked });
-  }, input.checked ? "Zamówienia online wstrzymane" : "Zamówienia online znów przyjmowane");
-  input.checked = s.zamowienia.wstrzymane;
-}
-
-// ── zamówienia ──
-async function viewOrders(silent = false) {
-  let path = "/panel/zamowienia?widok=" + state.ordersView;
-  if (state.ordersView === "historia") path += "&data=" + (state.ordersDate || dzisDs());
-  const list = await api("GET", path);
-  if (state.tab !== "zamowienia") return;
-  const seg = h("div", { class: "segment", role: "group", "aria-label": "Widok" },
-    [["aktywne", "Aktywne"], ["dzis", "Dziś"], ["historia", "Historia"]].map(([id, l]) =>
-      h("button", { type: "button", "aria-pressed": String(state.ordersView === id), onclick: () => { state.ordersView = id; render(); } }, l)));
-  const tools = h("div", { class: "pasek-narzedzi" }, h("h2", { text: "Zamówienia" }), seg);
-  if (state.ordersView === "historia") {
-    tools.append(h("input", { type: "date", value: state.ordersDate || dzisDs(), "aria-label": "Dzień", onchange: (e) => { state.ordersDate = e.target.value; render(); } }));
-  }
-  const s = state.summary;
-  const liczby = s ? h("div", { class: "dzis-liczby" },
-    h("span", {}, h("b", { text: s.dzis.zamowien }), "zamówień dziś"),
-    h("span", {}, h("b", { text: zl(s.dzis.obrot) }), "wartość"),
-    h("span", {}, h("b", { text: s.dzis.rezerwacji }), `rezerwacji dziś (${s.dzis.gosci} os.)`)) : null;
-  const body = list.length
-    ? h("div", { class: "lista" }, list.map(orderCard))
-    : h("div", { class: "pusto", text: state.ordersView === "aktywne" ? "Brak zamówień do obsługi. Nowe pojawią się tu same, z dźwiękiem, jeśli go włączysz." : "Brak zamówień w tym widoku." });
-  if (silent && document.activeElement && main.contains(document.activeElement)) return; // nie przerywaj pisania
-  main.replaceChildren(...[tools, liczby, body].filter(Boolean));
-}
-
-function orderCard(o) {
-  const dowoz = o.typ === "dowoz";
-  const card = h("article", { class: "karta" + (o.status === "nowe" ? " nowe" : "") + (state.fresh.has(o.id) ? " swieze" : "") });
-  state.fresh.delete(o.id);
-  const patch = (btn, body, ok) => act(btn, async () => { await api("PATCH", `/panel/zamowienia/${o.id}`, body); render(); poll(); }, ok);
-  const akcje = h("div", { class: "akcje" });
-  if (o.status === "nowe") {
-    const eta = h("select", { "aria-label": "Czas realizacji" }, [20, 30, 45, 60, 75, 90, 120].map((m) => h("option", { value: m, selected: m === (dowoz ? 60 : 30) ? true : undefined }, `${m} min`)));
-    const przyjmij = h("button", { class: "btn ok", type: "button", text: "Przyjmij", onclick: () => patch(przyjmij, { status: "przyjete", eta: Number(eta.value) }, `Przyjęto #${o.id}`) });
-    const odrzuc = h("button", {
-      class: "btn niebezp", type: "button", text: "Odrzuć",
-      onclick: () => {
-        const powod = prompt("Powód odrzucenia (zobaczy go obsługa; klientowi zadzwoń):", "");
-        if (powod === null) return;
-        patch(odrzuc, { status: "odrzucone", notatka: powod }, `Odrzucono #${o.id}`);
-      },
-    });
-    akcje.append(eta, przyjmij, odrzuc);
-  } else if (o.status === "przyjete") {
-    const dalej = h("button", { class: "btn", type: "button", text: dowoz ? "Wyjechało" : "Gotowe do odbioru", onclick: () => patch(dalej, { status: dowoz ? "w_drodze" : "gotowe" }) });
-    akcje.append(dalej);
-  } else if (o.status === "w_drodze" || o.status === "gotowe") {
-    const koniec = h("button", { class: "btn ok", type: "button", text: dowoz ? "Dostarczone" : "Odebrane", onclick: () => patch(koniec, { status: "zrealizowane" }) });
-    akcje.append(koniec);
-  }
-  card.append(...[
-    h("div", { class: "naglowek" },
-      h("span", { class: "numer", text: `#${o.id}` }),
-      h("span", { class: "czas" }, `${godzina(o.utworzono)} · ${o.godzina ? "na " + o.godzina : "jak najszybciej"}`)),
-    h("div", { class: "akcje" },
-      h("span", { class: "znacznik " + (dowoz ? "dowoz" : "wynos"), text: dowoz ? "Dowóz" : "Na wynos" }),
-      h("span", { class: "znacznik st-" + o.status, text: ORDER_LABEL[o.status] + (o.eta && o.status === "przyjete" ? ` · ${o.eta} min` : "") }),
-      o.jezyk === "en" ? h("span", { class: "znacznik", text: "EN" }) : null),
-    h("div", { class: "klient" },
-      h("b", { text: o.imie }),
-      o.telefon !== "—" ? h("a", { href: telHref(o.telefon), text: o.telefon }) : null,
-      o.adres ? h("a", { href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(o.adres + ", Krynica-Zdrój"), target: "_blank", rel: "noopener", text: o.adres }) : null),
-    h("ul", { class: "pozycje" }, o.pozycje.map((p) => h("li", {}, h("span", { text: `${p.ilosc} × ${p.nazwa}${p.wariant ? ` (${p.wariant})` : ""}` }), h("span", { text: zl(p.suma) })))),
-    h("div", { class: "suma" }, h("span", { text: "Razem" }), h("span", { text: zl(o.suma) })),
-    o.uwagi ? h("div", { class: "uwagi", text: o.uwagi }) : null,
-    o.notatka ? h("div", { class: "notatka", text: "Notatka: " + o.notatka }) : null,
-    akcje.childNodes.length ? akcje : null,
-  ].filter(Boolean));
-  return card;
-}
+async function loadSettings() { state.settings = await api("GET", "/panel/ustawienia"); return state.settings; }
 
 // ── rezerwacje ──
 async function viewReservations() {
@@ -432,11 +343,9 @@ async function viewSettings() {
     return h("label", { class: "pole" }, label, el);
   };
   const saveBtn = (name, obj, ok) => {
-    const b = h("button", { class: "btn ok", type: "button", text: "Zapisz", onclick: () => act(b, async () => { s[name] = await api("PUT", `/panel/ustawienia/${name}`, obj); if (name === "zamowienia") pauseInput.checked = s.zamowienia.wstrzymane; }, ok) });
+    const b = h("button", { class: "btn ok", type: "button", text: "Zapisz", onclick: () => act(b, async () => { s[name] = await api("PUT", `/panel/ustawienia/${name}`, obj); }, ok) });
     return h("div", { class: "stopka-sekcji" }, b);
   };
-  const z = structuredClone(s.zamowienia);
-  const d = structuredClone(s.dowoz);
   const r = structuredClone(s.rezerwacje);
   const k = structuredClone(s.komunikat);
   const kDo = h("input", { type: "date", value: k.do || "", oninput: (e) => { k.do = e.target.value; } });
@@ -446,17 +355,6 @@ async function viewSettings() {
       h("p", { class: "opis", text: "Pasek na górze strony, np. „W Wigilię nieczynne”. Zostaw pusty, żeby go ukryć." }),
       h("div", { class: "siatka" }, txt(k, "tekst", "Po polsku", true), txt(k, "tekst_en", "Po angielsku (opcjonalnie)", true), h("label", { class: "pole" }, "Pokazuj do dnia", h("span", { text: "puste = bez końca" }), kDo)),
       saveBtn("komunikat", k, "Zapisano komunikat")),
-    h("section", { class: "sekcja" }, h("h3", { text: "Zamówienia online" }),
-      h("div", { class: "siatka" }, sw(z, "online", "Przyjmuj zamówienia przez stronę"), sw(z, "wstrzymane", "Wstrzymane (kuchnia pełna)")),
-      h("div", { class: "siatka" },
-        num(z, "ostatnieMinPrzedZamknieciem", "Ostatnie zamówienie", "minut przed zamknięciem"),
-        num(z, "czasPrzygotowaniaMin", "Najwcześniejszy odbiór", "minut od złożenia"),
-        num(z, "czasDostawyMin", "Czas dostawy pokazywany gościom", "minut"),
-        num(z, "minimumZl", "Minimalna kwota dowozu", "zł, 0 = brak")),
-      saveBtn("zamowienia", z, "Zapisano")),
-    h("section", { class: "sekcja" }, h("h3", { text: "Dowóz" }),
-      h("div", { class: "siatka" }, sw(d, "aktywny", "Dowóz dostępny"), txt(d, "obszar", "Obszar dowozu"), txt(d, "obszar_en", "Obszar po angielsku"), num(d, "oplataZl", "Opłata za dowóz", "zł, 0 = darmowy")),
-      saveBtn("dowoz", d, "Zapisano")),
     h("section", { class: "sekcja" }, h("h3", { text: "Rezerwacje online" }),
       h("div", { class: "siatka" }, sw(r, "online", "Przyjmuj rezerwacje przez stronę")),
       h("div", { class: "siatka" },

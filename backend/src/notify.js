@@ -1,6 +1,5 @@
-// Powiadomienia dla obsługi o nowym zamówieniu lub rezerwacji: e-mail (SMTP) i/lub webhook (np. Make, n8n, Slack).
+// Powiadomienia dla obsługi o nowej rezerwacji: e-mail (SMTP) i/lub webhook (np. Make, n8n, Slack).
 // Bez konfiguracji nic nie wysyła — panel i tak pokazuje nowe zgłoszenia z dźwiękiem.
-import { zl } from "./repo.js";
 
 export function createNotifier(cfg, { publicUrl = "", log = console } = {}) {
   let transport = null;
@@ -40,19 +39,6 @@ export function createNotifier(cfg, { publicUrl = "", log = console } = {}) {
   }
 
   return {
-    order(o) {
-      const lines = o.pozycje.map((p) => `${p.ilosc} × ${p.nazwa}${p.wariant ? ` (${p.wariant})` : ""} — ${zl(p.suma)} zł`);
-      const text = [
-        `${o.typ === "dowoz" ? "DOWÓZ" : "NA WYNOS"} · ${o.godzina ? `na ${o.godzina}` : "jak najszybciej"}`,
-        `${o.imie}, tel. ${o.telefon}`,
-        o.adres ? `Adres: ${o.adres}` : "",
-        "",
-        ...lines,
-        `Razem: ${zl(o.suma)} zł`,
-        o.uwagi ? `\nUwagi: ${o.uwagi}` : "",
-      ].filter((l) => l !== "").join("\n") + panel;
-      return send("zamowienie", `Nowe zamówienie #${o.id} — ${zl(o.suma)} zł`, text, { id: o.id });
-    },
     reservation(r) {
       const text = [
         `${r.data} o ${r.godzina} · ${r.osoby} os.${r.rondel ? " · Rondel" : ""}`,

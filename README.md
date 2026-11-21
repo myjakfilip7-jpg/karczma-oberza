@@ -15,8 +15,8 @@ Robocze opracowanie marki Karczmy Oberża (ul. Piłsudskiego 23, Krynica-Zdrój)
 | `prototyp/build.py` | Generator: buduje wszystkie strony prototypu (PL i EN) z jednego źródła. Po zmianie tekstów uruchom `python3 prototyp/build.py` |
 | `prototyp/dowoz.html` | Podstrona dowozu i zamówień na wynos |
 | `prototyp/en/` | Wersja angielska (generowana przez `build.py`; tłumaczenia dań w `menu.json` jako pola `_en`) |
-| `backend/` | Backend strony: API (karta, status, rezerwacje, zamówienia), panel właściciela `/panel/`, powiadomienia. Opis, uruchomienie i wdrożenie: `backend/README.md` |
-| `prototyp/online.js` | Funkcje online strony (formularz rezerwacji, koszyk, status zamówienia) — włączają się tylko, gdy działa backend |
+| `backend/` | Backend strony: API (karta, status, rezerwacje), panel właściciela `/panel/`, powiadomienia. Opis, uruchomienie i wdrożenie: `backend/README.md` |
+| `prototyp/online.js` | Funkcje online strony (formularz rezerwacji, status otwarcia, komunikat) — włączają się tylko, gdy działa backend |
 | `data/menu.md` | Karta dań spisana z Facebooka (wydanie z 1.11.2026) i pozycje ze starszej karty |
 | `assets/haft.svg` | Uproszczona rekonstrukcja motywu haftu krzyżykowego |
 
@@ -37,4 +37,4 @@ python3 -m http.server 4173
 
 ## Backend
 
-Strona z formularzami i panelem działa po uruchomieniu backendu (`npm install`, potem `npm start`). Szczegóły, testy i wdrożenie na Hostingerze: [backend/README.md](backend/README.md).
+Strona z formularzem rezerwacji i panelem działa po uruchomieniu backendu (`npm install`, potem `npm start`). Szczegóły, testy i wdrożenie na Hostingerze: [backend/README.md](backend/README.md).

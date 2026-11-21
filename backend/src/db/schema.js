@@ -48,25 +48,6 @@ CREATE TABLE IF NOT EXISTS reservations (
   staff_note TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_reservations_slot ON reservations (date, time);
-CREATE TABLE IF NOT EXISTS orders (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  token TEXT NOT NULL UNIQUE,
-  created_at TEXT NOT NULL,
-  updated_at TEXT,
-  type TEXT NOT NULL,
-  name TEXT NOT NULL,
-  phone TEXT NOT NULL,
-  address TEXT,
-  note TEXT,
-  desired_time TEXT,
-  items TEXT NOT NULL,
-  total INTEGER NOT NULL,
-  lang TEXT NOT NULL DEFAULT 'pl',
-  status TEXT NOT NULL DEFAULT 'nowe',
-  eta_minutes INTEGER,
-  staff_note TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_orders_created ON orders (created_at);
 `;
 
 const mysql = `
@@ -116,25 +97,6 @@ CREATE TABLE IF NOT EXISTS reservations (
   status VARCHAR(20) NOT NULL DEFAULT 'nowa',
   staff_note TEXT,
   INDEX idx_reservations_slot (date, time)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-CREATE TABLE IF NOT EXISTS orders (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  token VARCHAR(64) NOT NULL UNIQUE,
-  created_at VARCHAR(32) NOT NULL,
-  updated_at VARCHAR(32),
-  type VARCHAR(10) NOT NULL,
-  name VARCHAR(120) NOT NULL,
-  phone VARCHAR(40) NOT NULL,
-  address VARCHAR(300),
-  note TEXT,
-  desired_time VARCHAR(10),
-  items MEDIUMTEXT NOT NULL,
-  total INT NOT NULL,
-  lang VARCHAR(2) NOT NULL DEFAULT 'pl',
-  status VARCHAR(20) NOT NULL DEFAULT 'nowe',
-  eta_minutes INT,
-  staff_note TEXT,
-  INDEX idx_orders_created (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 `;
 

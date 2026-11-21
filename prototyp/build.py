@@ -8,7 +8,7 @@ Teksty są w słownikach PL i EN poniżej. Dania i ceny są w menu.json.
 from pathlib import Path
 
 TU = Path(__file__).parent
-V = "7"  # podbij po zmianie CSS/JS, żeby przeglądarki pobrały nowe pliki
+V = "8"  # podbij po zmianie CSS/JS, żeby przeglądarki pobrały nowe pliki
 
 G = "https://lh3.googleusercontent.com/"
 FOTO = {
@@ -106,7 +106,6 @@ PL = dict(
             ("Jak mogę zapłacić?", "Formę płatności ustalicie z nami przy składaniu zamówienia."),
             ("Czy mogę zamówić na konkretną godzinę?", "Tak, zadzwońcie wcześniej i podajcie godzinę. Przy większych zamówieniach, na przykład kilku Rondlach, prosimy o telefon z wyprzedzeniem.")],
     dz_nota="Prototyp strony · warunki dowozu do potwierdzenia z karczmą",
-    dz_online_cta="Zamów online z karty",
     rz_et="Rezerwacja", rz_h2="Zarezerwuj stolik",
     rz_opis="Wybierz dzień i godzinę. Rezerwację potwierdzimy telefonicznie albo e-mailem. Przy większej grupie zadzwoń: 505 176 315.",
     rz_data="Dzień", rz_godzina="Godzina", rz_wybierz="Najpierw wybierz dzień", rz_osoby="Liczba osób", rz_imie="Imię i nazwisko",
@@ -190,7 +189,6 @@ EN = dict(
             ("How can I pay?", "You agree the payment method with us when you place the order."),
             ("Can I order for a set time?", "Yes. Call ahead and tell us the time. For larger orders, such as several pans for four, please call well in advance.")],
     dz_nota="Website prototype · delivery terms to be confirmed with the restaurant",
-    dz_online_cta="Order online from the menu",
     rz_et="Booking", rz_h2="Book a table",
     rz_opis="Choose a day and time. We will confirm by phone or email. For a larger group, please call +48 505 176 315.",
     rz_data="Day", rz_godzina="Time", rz_wybierz="Choose a day first", rz_osoby="Number of people", rz_imie="Full name",
@@ -524,7 +522,6 @@ def karta(t, baza):
     <div class="wrap karta-uklad">
       <nav class="kat-nav" aria-label="{t["kar_kat"]}" id="kat-nav"></nav>
       <div id="karta">
-        <p class="uwaga-online" id="zamowienia-karta" hidden></p>
         <p class="wynik" id="wynik" role="status" aria-live="polite"></p>
         <div id="lista"><noscript><p>{t["kar_noscript"]}</p></noscript></div>
         <div class="pusto" id="pusto" hidden>
@@ -567,10 +564,6 @@ def dowoz(t, baza):
         <span class="status" data-status>{t["codziennie"]}</span>
         <span>{t["dz_m2"]}</span>
         <span>{t["dz_m3"]}</span>
-      </div>
-      <div class="online-zam" data-online hidden>
-        <a class="btn" href="karta.html">{t["dz_online_cta"]} {STRZ}</a>
-        <p class="cichy" data-zamowienia-info></p>
       </div>
     </div>
   </section>

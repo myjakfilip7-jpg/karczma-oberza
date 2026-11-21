@@ -25,7 +25,7 @@ if (await repo.menuIsEmpty()) {
 async function purge() {
   try {
     const r = await repo.purgePersonalData(config.retentionDays);
-    if (r.zamowienia || r.rezerwacje) console.log(`[rodo] Usunięto dane osobowe: ${r.zamowienia} zamówień, ${r.rezerwacje} rezerwacji starszych niż ${config.retentionDays} dni.`);
+    if (r.rezerwacje) console.log(`[rodo] Usunięto dane osobowe z ${r.rezerwacje} rezerwacji starszych niż ${config.retentionDays} dni.`);
   } catch (e) { console.error("[rodo]", e.message); }
 }
 await purge();

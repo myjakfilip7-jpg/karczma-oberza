@@ -24,8 +24,8 @@ export async function startTestServer({ clock = makeClock(), env = {} } = {}) {
     sqliteFile: ":memory:",
   };
   const db = await openDb(config);
-  const sent = { orders: [], reservations: [], statuses: [] };
-  const notify = { order: async (o) => sent.orders.push(o), reservation: async (r) => sent.reservations.push(r), reservationStatus: async (r) => sent.statuses.push(r) };
+  const sent = { reservations: [], statuses: [] };
+  const notify = { reservation: async (r) => sent.reservations.push(r), reservationStatus: async (r) => sent.statuses.push(r) };
   const quiet = { error() {}, log() {}, warn() {} };
   const { app, repo } = createApp({ db, config, now: clock.now, notify, log: quiet });
   await repo.importMenu(JSON.parse(fs.readFileSync(config.menuSeedFile, "utf8")));
