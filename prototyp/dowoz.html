@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="alternate" hreflang="pl" href="dowoz.html">
 <link rel="alternate" hreflang="en" href="en/dowoz.html">
-<link rel="stylesheet" href="strona.css?v=5">
+<link rel="stylesheet" href="strona.css?v=7">
 </head>
 <body>
 <a class="skok" href="#tresc">Przejdź do treści</a>
@@ -64,6 +64,10 @@
         <span class="status" data-status>Codziennie 12:00–22:00</span>
         <span>Darmowa dostawa w Krynicy-Zdroju</span>
         <span>Na wynos: odbiór przy Piłsudskiego 23</span>
+      </div>
+      <div class="online-zam" data-online hidden>
+        <a class="btn" href="karta.html">Zamów online z karty <span class="strz" aria-hidden="true">→</span></a>
+        <p class="cichy" data-zamowienia-info></p>
       </div>
     </div>
   </section>
@@ -146,7 +150,7 @@
     </div>
     <div class="nota maly">
       <span>Prototyp strony · warunki dowozu do potwierdzenia z karczmą</span>
-      <a href="../index.html">Wróć do researchu</a>
+      <a href="https://myjakfilip7-jpg.github.io/karczma-oberza/">Wróć do researchu</a>
     </div>
   </div>
   <div class="olbrzym" aria-hidden="true">OBER<i class="z">Z</i>A</div>
@@ -158,10 +162,11 @@
   <a href="https://www.google.com/maps/dir/?api=1&destination=Karczma+Ober%C5%BCa,+Pi%C5%82sudskiego+23,+Krynica-Zdr%C3%B3j" target="_blank" rel="noopener">Dojazd</a>
 </nav>
 
-<script src="strona.js?v=5"></script>
+<script src="strona.js?v=7"></script>
+<script src="online.js?v=7"></script>
 <script>
 // liczba pozycji i cena „od” prosto z menu.json — jedno źródło prawdy
-fetch("menu.json?v=5").then(r => r.json()).then(menu => {
+fetch("menu.json?v=7").then(r => r.json()).then(menu => {
   document.querySelectorAll("[data-kat]").forEach(k => {
     const kat = menu.kategorie.find(x => x.id === k.dataset.kat);
     if (!kat) return;

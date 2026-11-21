@@ -1,0 +1,12 @@
+{
+  "name": "karczma-oberza",
+  "private": true,
+  "description": "Strona Karczmy Oberża z backendem (rezerwacje, zamówienia, panel). Szczegóły: backend/README.md",
+  "workspaces": ["backend"],
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node backend/src/server.js",
+    "test": "npm test -w backend",
+    "build-site": "python3 prototyp/build.py"
+  }
+}

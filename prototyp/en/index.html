@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="alternate" hreflang="pl" href="../index.html">
 <link rel="alternate" hreflang="en" href="index.html">
-<link rel="stylesheet" href="../strona.css?v=5">
+<link rel="stylesheet" href="../strona.css?v=7">
 </head>
 <body>
 <a class="skok" href="#tresc">Skip to content</a>
@@ -122,7 +122,7 @@
       <p class="rym">Bring the whole company and call for the RONDEL.</p>
       <p class="cichy">Pork knuckle, BBQ ribs, roast pork in porcini sauce, two kinds of grilled meat, three kinds of pierogi, fried potatoes and braised cabbage. One pan for the middle of the table. Ask for “Rondel Głodnego Chłopa”.</p>
       <p class="cena-l">249 PLN <small>for four people</small></p>
-      <a class="btn" href="tel:+48505176315">Book a table</a>
+      <a class="btn" href="tel:+48505176315" data-rondel-cta>Book a table</a>
     </div>
   </div>
 </section>
@@ -179,6 +179,31 @@
   </div>
 </section>
 
+
+<section class="sekcja glebsza" id="rezerwacja" data-online hidden>
+  <div class="wrap g12 rez">
+    <div class="glowa pokaz">
+      <p class="et">Booking</p>
+      <h2 class="h-l">Book a table</h2>
+      <p class="cichy">Choose a day and time. We will confirm by phone or email. For a larger group, please call +48 505 176 315.</p>
+    </div>
+    <form class="formularz pokaz" id="rezerwacja-form" novalidate>
+      <label class="pole"><span>Day</span><input type="date" name="data" required></label>
+      <label class="pole"><span>Time</span><select name="godzina" required><option value="">Choose a day first</option></select></label>
+      <label class="pole"><span>Number of people</span><select name="osoby" required><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option></select></label>
+      <label class="pole"><span>Full name</span><input type="text" name="imie" autocomplete="name" required maxlength="80"></label>
+      <label class="pole"><span>Phone</span><input type="tel" name="telefon" autocomplete="tel" required maxlength="30"></label>
+      <label class="pole"><span>Email <small>(optional)</small></span><input type="email" name="email" autocomplete="email" maxlength="200"></label>
+      <label class="pole cala"><span>Notes <small>(optional)</small></span><textarea name="uwagi" rows="3" maxlength="500" placeholder="e.g. birthday, high chair"></textarea></label>
+      <label class="wybor cala"><input type="checkbox" name="rondel"> <span>We would like the Hungry Peasant's Pan (a dish for 4, 249 PLN)</span></label>
+      <label class="ukryte-pole" aria-hidden="true">Firma <input type="text" name="firma" tabindex="-1" autocomplete="off"></label>
+      <div class="cala rzad-wyslij"><button class="btn" type="submit">Send booking request</button></div>
+      <p class="maly cala">We will use these details only to handle this booking.</p>
+      <p class="wynik-formularza cala" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
 <section class="sekcja kontakt" id="kontakt">
   <div class="wrap g12">
     <div class="dane pokaz">
@@ -231,7 +256,7 @@
     </div>
     <div class="nota maly">
       <span>Website prototype · temporary photos from the Google listing</span>
-      <a href="../../index.html">Back to the research</a>
+      <a href="https://myjakfilip7-jpg.github.io/karczma-oberza/">Back to the research</a>
     </div>
   </div>
   <div class="olbrzym" aria-hidden="true">OBER<i class="z">Z</i>A</div>
@@ -243,6 +268,7 @@
   <a href="https://www.google.com/maps/dir/?api=1&destination=Karczma+Ober%C5%BCa,+Pi%C5%82sudskiego+23,+Krynica-Zdr%C3%B3j" target="_blank" rel="noopener">Directions</a>
 </nav>
 
-<script src="../strona.js?v=5"></script>
+<script src="../strona.js?v=7"></script>
+<script src="../online.js?v=7"></script>
 </body>
 </html>

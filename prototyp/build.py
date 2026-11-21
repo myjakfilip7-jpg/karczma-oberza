@@ -8,7 +8,7 @@ Teksty są w słownikach PL i EN poniżej. Dania i ceny są w menu.json.
 from pathlib import Path
 
 TU = Path(__file__).parent
-V = "5"  # podbij po zmianie CSS/JS, żeby przeglądarki pobrały nowe pliki
+V = "7"  # podbij po zmianie CSS/JS, żeby przeglądarki pobrały nowe pliki
 
 G = "https://lh3.googleusercontent.com/"
 FOTO = {
@@ -106,6 +106,13 @@ PL = dict(
             ("Jak mogę zapłacić?", "Formę płatności ustalicie z nami przy składaniu zamówienia."),
             ("Czy mogę zamówić na konkretną godzinę?", "Tak, zadzwońcie wcześniej i podajcie godzinę. Przy większych zamówieniach, na przykład kilku Rondlach, prosimy o telefon z wyprzedzeniem.")],
     dz_nota="Prototyp strony · warunki dowozu do potwierdzenia z karczmą",
+    dz_online_cta="Zamów online z karty",
+    rz_et="Rezerwacja", rz_h2="Zarezerwuj stolik",
+    rz_opis="Wybierz dzień i godzinę. Rezerwację potwierdzimy telefonicznie albo e-mailem. Przy większej grupie zadzwoń: 505 176 315.",
+    rz_data="Dzień", rz_godzina="Godzina", rz_wybierz="Najpierw wybierz dzień", rz_osoby="Liczba osób", rz_imie="Imię i nazwisko",
+    rz_tel="Telefon", rz_email="E-mail", opcj="(opcjonalnie)", rz_uwagi="Uwagi", rz_uwagi_ph="np. urodziny, krzesełko dla dziecka",
+    rz_rondel="Zamawiamy Rondel Głodnego Chłopa (danie dla 4 osób, 249 zł)", rz_wyslij="Wyślij rezerwację",
+    rz_zgoda="Dane z formularza wykorzystamy tylko do obsługi tej rezerwacji.",
     meta_js='(n === 1 ? ceny[0] + " zł" : n + " " + (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? "pozycje" : "pozycji") + " · od " + Math.min(...ceny) + " zł")',
 )
 
@@ -183,6 +190,13 @@ EN = dict(
             ("How can I pay?", "You agree the payment method with us when you place the order."),
             ("Can I order for a set time?", "Yes. Call ahead and tell us the time. For larger orders, such as several pans for four, please call well in advance.")],
     dz_nota="Website prototype · delivery terms to be confirmed with the restaurant",
+    dz_online_cta="Order online from the menu",
+    rz_et="Booking", rz_h2="Book a table",
+    rz_opis="Choose a day and time. We will confirm by phone or email. For a larger group, please call +48 505 176 315.",
+    rz_data="Day", rz_godzina="Time", rz_wybierz="Choose a day first", rz_osoby="Number of people", rz_imie="Full name",
+    rz_tel="Phone", rz_email="Email", opcj="(optional)", rz_uwagi="Notes", rz_uwagi_ph="e.g. birthday, high chair",
+    rz_rondel="We would like the Hungry Peasant's Pan (a dish for 4, 249 PLN)", rz_wyslij="Send booking request",
+    rz_zgoda="We will use these details only to handle this booking.",
     meta_js='(n === 1 ? ceny[0] + " PLN" : n + " dishes · from " + Math.min(...ceny) + " PLN")',
 )
 
@@ -283,7 +297,7 @@ def stopka(t, baza, nota, skrypty=""):
     </div>
     <div class="nota maly">
       <span>{nota}</span>
-      <a href="{baza}../index.html">{t["f_wroc"]}</a>
+      <a href="https://myjakfilip7-jpg.github.io/karczma-oberza/">{t["f_wroc"]}</a>
     </div>
   </div>
   <div class="olbrzym" aria-hidden="true">OBER<i class="z">Z</i>A</div>
@@ -296,6 +310,7 @@ def stopka(t, baza, nota, skrypty=""):
 </nav>
 
 <script src="{baza}strona.js?v={V}"></script>
+<script src="{baza}online.js?v={V}"></script>
 {skrypty}</body>
 </html>
 '''
@@ -304,6 +319,35 @@ def stopka(t, baza, nota, skrypty=""):
 def trojka(pary):
     return "\n".join(
         f'      <div class="pokaz" style="--i:{i}"><span class="nr">{i + 1}</span><h3>{a}</h3><p>{b}</p></div>' for i, (a, b) in enumerate(pary))
+
+
+def rezerwacja(t):
+    osoby = "".join(f'<option value="{i}"{" selected" if i == 2 else ""}>{i}</option>' for i in range(1, 31))
+    return f'''
+<section class="sekcja glebsza" id="rezerwacja" data-online hidden>
+  <div class="wrap g12 rez">
+    <div class="glowa pokaz">
+      <p class="et">{t["rz_et"]}</p>
+      <h2 class="h-l">{t["rz_h2"]}</h2>
+      <p class="cichy">{t["rz_opis"]}</p>
+    </div>
+    <form class="formularz pokaz" id="rezerwacja-form" novalidate>
+      <label class="pole"><span>{t["rz_data"]}</span><input type="date" name="data" required></label>
+      <label class="pole"><span>{t["rz_godzina"]}</span><select name="godzina" required><option value="">{t["rz_wybierz"]}</option></select></label>
+      <label class="pole"><span>{t["rz_osoby"]}</span><select name="osoby" required>{osoby}</select></label>
+      <label class="pole"><span>{t["rz_imie"]}</span><input type="text" name="imie" autocomplete="name" required maxlength="80"></label>
+      <label class="pole"><span>{t["rz_tel"]}</span><input type="tel" name="telefon" autocomplete="tel" required maxlength="30"></label>
+      <label class="pole"><span>{t["rz_email"]} <small>{t["opcj"]}</small></span><input type="email" name="email" autocomplete="email" maxlength="200"></label>
+      <label class="pole cala"><span>{t["rz_uwagi"]} <small>{t["opcj"]}</small></span><textarea name="uwagi" rows="3" maxlength="500" placeholder="{t["rz_uwagi_ph"]}"></textarea></label>
+      <label class="wybor cala"><input type="checkbox" name="rondel"> <span>{t["rz_rondel"]}</span></label>
+      <label class="ukryte-pole" aria-hidden="true">Firma <input type="text" name="firma" tabindex="-1" autocomplete="off"></label>
+      <div class="cala rzad-wyslij"><button class="btn" type="submit">{t["rz_wyslij"]}</button></div>
+      <p class="maly cala">{t["rz_zgoda"]}</p>
+      <p class="wynik-formularza cala" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+'''
 
 
 def index(t, baza):
@@ -381,7 +425,7 @@ def index(t, baza):
       <p class="rym">{t["ron_rym"]}</p>
       <p class="cichy">{t["ron_opis"]}</p>
       <p class="cena-l">{t["ron_cena"]} <small>{t["ron_dla"]}</small></p>
-      <a class="btn" href="{TEL}">{t["ron_cta"]}</a>
+      <a class="btn" href="{TEL}" data-rondel-cta>{t["ron_cta"]}</a>
     </div>
   </div>
 </section>
@@ -430,6 +474,7 @@ def index(t, baza):
   </div>
 </section>
 
+''' + rezerwacja(t) + f'''
 <section class="sekcja kontakt" id="kontakt">
   <div class="wrap g12">
     <div class="dane pokaz">
@@ -479,6 +524,7 @@ def karta(t, baza):
     <div class="wrap karta-uklad">
       <nav class="kat-nav" aria-label="{t["kar_kat"]}" id="kat-nav"></nav>
       <div id="karta">
+        <p class="uwaga-online" id="zamowienia-karta" hidden></p>
         <p class="wynik" id="wynik" role="status" aria-live="polite"></p>
         <div id="lista"><noscript><p>{t["kar_noscript"]}</p></noscript></div>
         <div class="pusto" id="pusto" hidden>
@@ -521,6 +567,10 @@ def dowoz(t, baza):
         <span class="status" data-status>{t["codziennie"]}</span>
         <span>{t["dz_m2"]}</span>
         <span>{t["dz_m3"]}</span>
+      </div>
+      <div class="online-zam" data-online hidden>
+        <a class="btn" href="karta.html">{t["dz_online_cta"]} {STRZ}</a>
+        <p class="cichy" data-zamowienia-info></p>
       </div>
     </div>
   </section>

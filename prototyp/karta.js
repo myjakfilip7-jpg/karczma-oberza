@@ -1,5 +1,5 @@
 // Karczma Oberża — karta dań renderowana z menu.json (PL i PO_ANG z jednego pliku)
-// Skrypt jest samodzielny: sam sprawdza język strony i nie zależy od innych plików.
+// Sam sprawdza język strony. Gdy działa backend (online.js), bierze kartę z /api/menu i dokłada przyciski zamawiania.
 const PO_ANG = document.documentElement.lang.startsWith("en");
 const BAZA = document.currentScript.dataset.baza || "";
 
@@ -9,12 +9,18 @@ const T = PO_ANG ? {
   trafienia: (n, q) => n + (n === 1 ? " result" : " results") + " for “" + q + "”",
   pusto: q => "Nothing on the menu matches “" + q + "”",
   blad: "The menu did not load. Refresh the page or call us: +48 505 176 315.",
+  niedostepne: "currently unavailable",
+  doKoszyka: "+ Add",
+  dodaj: (n, w) => `Add ${n}${w ? " " + w : ""} to basket`,
 } : {
   wydanie: d => "Wydanie z " + d + " · ceny w złotych",
   wszystkie: n => n + " " + odmiana(n) + " w karcie",
   trafienia: (n, q) => n + " " + odmiana(n) + " dla „" + q + "”",
   pusto: q => "Nie mamy w karcie „" + q + "”",
   blad: "Karta nie wczytała się. Odśwież stronę albo zadzwoń: 505 176 315.",
+  niedostepne: "chwilowo niedostępne",
+  doKoszyka: "+ Do koszyka",
+  dodaj: (n, w) => `Dodaj do koszyka: ${n}${w ? " " + w : ""}`,
 };
 
 function odmiana(n) {
@@ -31,7 +37,14 @@ const pusto = document.getElementById("pusto");
 const pole = document.getElementById("szukaj");
 const form = document.getElementById("szukaj-form");
 
-fetch(BAZA + "menu.json?v=5").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(menu => {
+const zMenuJson = () => fetch(BAZA + "menu.json?v=7").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(menu => ({ menu, st: null }));
+const zrodlo = (window.Oberza ? window.Oberza.ready : Promise.resolve(null)).then(st => !st ? zMenuJson()
+  : fetch("/api/menu", { cache: "no-store" }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(menu => ({ menu, st })).catch(zMenuJson));
+
+zrodlo.then(({ menu, st }) => {
+  const zamawianie = Boolean(st && st.zamowienia.online && st.zamowienia.mozna);
+  const info = document.getElementById("zamowienia-karta");
+  if (info && st && st.zamowienia.online) { info.hidden = false; info.textContent = zamawianie ? "" : window.Oberza.T.nieTeraz(st.zamowienia); info.hidden = zamawianie; }
   document.getElementById("wydanie").textContent = T.wydanie(menu.wydanie);
   const wpisy = [];
 
@@ -52,6 +65,20 @@ fetch(BAZA + "menu.json?v=5").then(r => { if (!r.ok) throw new Error(r.status); 
       if (PO_ANG && p.n_en && p.n_en !== p.n) { const pl = el("span", "pl", p.n); pl.lang = "pl"; li.append(pl); }
       if (p.o) li.append(el("span", "o", tl(p, "o")));
       if (p.g) li.append(el("span", "g", tl(p, "g")));
+      if (st && p.dostepne === false) li.append(el("span", "brak", T.niedostepne));
+      else if (zamawianie && Array.isArray(p.warianty)) {
+        const box = el("span", "dodaj");
+        p.warianty.forEach((w, i) => {
+          if (w.cena == null) return;
+          const etyk = tl(w, "etykieta") || "";
+          const b = el("button", "plus", etyk ? `+ ${etyk}` : T.doKoszyka);
+          b.type = "button";
+          b.setAttribute("aria-label", T.dodaj(tl(p, "n"), etyk));
+          b.addEventListener("click", () => window.Oberza.add({ id: p.id, wariant: i, nazwa: p.n, nazwa_en: p.n_en, etykieta: w.etykieta, etykieta_en: w.etykieta_en, cena: w.cena }));
+          box.append(b);
+        });
+        if (box.childNodes.length) li.append(box);
+      }
       ul.append(li);
       wpisy.push({ li, sekcja, tekst: norm([p.n, p.o || "", k.nazwa, p.n_en || "", p.o_en || "", k.nazwa_en || ""].join(" ")) });
     });
