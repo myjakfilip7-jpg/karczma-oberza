@@ -124,7 +124,7 @@ backend/
   src/app.js         wszystkie trasy HTTP (API, panel, pliki strony)
   src/repo.js        zapytania do bazy (wspólne dla SQLite i MySQL)
   src/db/            połączenie z bazą i schemat w dwóch dialektach
-  src/time.js        czas polski, godziny, terminy rezerwacji, okno zamówień
+  src/time.js        czas polski, godziny, terminy rezerwacji
   src/settings.js    ustawienia panelu: wartości domyślne i walidacja
   src/auth.js        logowanie do panelu
   src/notify.js      powiadomienia e-mail / webhook
@@ -141,4 +141,4 @@ Połączenie z MySQL nie było testowane (lokalnie nie ma serwera MySQL). Wszyst
 
 ## Historia
 
-Do 21.11.2026 backend przyjmował też zamówienia online (koszyk, dowóz, status zamówienia, zakładka „Zamówienia” w panelu). Funkcję usunięto na prośbę klienta; kod jest w historii gita (commit `5c81a2f`).
+Do 21.11.2026 backend przyjmował też zamówienia online (koszyk, dowóz, status zamówienia, zakładka „Zamówienia” w panelu). Funkcję usunięto; kod jest w historii gita (commit `5c81a2f`).
